@@ -7,10 +7,9 @@ from preprocess import preprocess_text
 
 def build_forest(data, perms: int):
     """Build Forest"""
-    start_time = time.time()
     minhash = []
 
-    for text in data['text']:
+    for text in data['minhash_corpus']:
         tokens = preprocess_text(text)
         minhash_object = MinHash(num_perm=perms)
         for token in tokens:
@@ -24,17 +23,23 @@ def build_forest(data, perms: int):
 
     forest.index()
 
-    print(f'It took {(time.time()-start_time)} seconds to build forest.')
-
     return forest
 
 
-def preprocess_dataframe(data):
+def preprocess_dataframe(data, columns):
     """preprocess data frame"""
-    data["text"] = data["Title"] + " " + data["SEO Description"]
-    data = data[data["text"].notna()]
+    data["minhash_corpus"] = data["Title"] + " " + data["SEO Description"]
+    data = data[data["minhash_corpus"].notna()]
     data = data.drop_duplicates()
     return data
+
+
+def concat_columns(data, columns: list):
+    """concat labeled tax columns"""
+    ret_frame_col = ""
+    for cnt in range(0, len(columns)-1):
+        ret_frame_col += " " + data[columns[cnt]]
+    return ret_frame_col
 
 
 if __name__ == "__main__":

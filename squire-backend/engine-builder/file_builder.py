@@ -1,4 +1,5 @@
 """Module to build pickle file"""
+from urllib.request import urlopen
 import csv
 import time
 import pickle
@@ -49,14 +50,27 @@ def upload_file(file_path: str) -> str:
     return gcs_storage_url
 
 
+def upload_recommendation(filename: str, data):
+    """uploads recommendation to file storage"""
+    recommendation_engine = RecommendationEngine(data)
+    upload_object_as_file(recommendation_engine, filename)
+
+
 if __name__ == "__main__":
     with open("test.csv", "r", encoding="utf-8") as file:
         two_d = list(csv.reader(file))
     t1 = time.time()
     engine = RecommendationEngine(two_d)
     t2 = time.time()
-    results = engine.query_minhash("Domaine J.A. Ferret Pouilly-Fuisse 2018",5)
+    results = engine.query_minhash(
+        "Domaine J.A. Ferret Pouilly-Fuisse 2018", 5)
     print(results)
     t3 = time.time()
+    upload_object_as_file(engine, "recommendation_engine_23_03_2023")
+    t4 = time.time()
     print(f"time taken to build recommendation engine: {t2-t1}")
     print(f"time taken to query recommendation engine: {t3-t2}")
+    print(f"time taken to upload recommendation engine: {t4-t3}")
+    # with urlopen("https://firebasestorage.googleapis.com/v0/b/squire-backend.appspot.com/o/recommendation_engine_23_03_2023?alt=media&token=47b11af3-fe74-4197-84f5-32e923329f4e") as pf:
+    #     engine = pickle.load(pf)
+    # print(engine.query_minhash("Domaine J.A. Ferret Pouilly-Fuisse 2018", 5))
