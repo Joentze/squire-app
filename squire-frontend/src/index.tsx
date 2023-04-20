@@ -1,15 +1,51 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import LandingPage from "./pages/misc/LandingPage";
+import DashboardPage from "./pages/dashboard/DashboardPage";
+import LogsListPage from "./pages/logging/LogsListPage";
+import BuildPage from "./pages/builder/BuildPage";
+import BuildProcessPage from "./pages/builder/BuildProcessPage";
+import DisplayLogPage from "./pages/logging/DisplayLogPage";
+import NavFrame from "./components/nav/NavFrame";
+import ErrorPage from "./pages/misc/ErrorPage";
+import LoginPage from "./pages/auth/LoginPage";
+import SignUpPage from "./pages/auth/SignUpPage";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <NavFrame />,
+    children: [
+      { path: "/dashboard", element: <DashboardPage /> },
+      { path: "/logs", element: <LogsListPage /> },
+      { path: "/log/:runid", element: <DisplayLogPage /> },
+      { path: "/build/:engineid", element: <BuildPage /> },
+      { path: "/build/:engineid/:runid", element: <BuildProcessPage /> },
+    ],
+  },
+  {
+    path: "/about",
+    element: <LandingPage />,
+  },
+  { path: "/login", element: <LoginPage /> },
+  { path: "/register", element: <SignUpPage /> },
+
+  {
+    path: "*",
+    element: <ErrorPage />,
+  },
+]);
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 
