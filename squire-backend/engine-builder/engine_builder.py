@@ -9,13 +9,14 @@ from preprocess import preprocess_text
 class RecommendationEngine:
     """Recommendation Engine Object"""
 
-    def __init__(self, two_d_array) -> None:
+    def __init__(self, two_d_array, text_cols) -> None:
         self.permutations = 128
+        self.text_cols = text_cols
         self.two_d_array = two_d_array
         self.dataframe = pd.DataFrame(
             self.two_d_array[1:], columns=self.two_d_array[0])
         self.minhash_reco_engine = build_forest(
-            preprocess_dataframe(self.dataframe), self.permutations)
+            preprocess_dataframe(self.dataframe, self.text_cols), self.permutations)
 
     def query_minhash(self, query_title: str, num_of_recos: int):
         """function to query minhash"""
