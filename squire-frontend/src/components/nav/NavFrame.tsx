@@ -2,6 +2,7 @@ import { ActionIcon, Tooltip } from "@mantine/core";
 import { iconSizes } from "@mantine/core/lib/Stepper/Step/Step.styles";
 import {
   Icon3dCubeSphere,
+  IconDotsVertical,
   IconLayoutDashboard,
   IconListCheck,
 } from "@tabler/icons-react";
@@ -16,7 +17,12 @@ const NavFrame = () => {
   const { pathname } = useLocation();
   return (
     <div className="w-full h-screen flex flex-col">
-      <div className="w-full flex h-16 border border-b-2"></div>
+      <div className="w-full flex flex-row h-16 border border-b-2 p-4">
+        <div className="flex-grow"></div>
+        <ActionIcon className="my-auto" size={"lg"}>
+          <IconDotsVertical />
+        </ActionIcon>
+      </div>
       <div className="grid grid-cols-9 w-full flex-grow">
         <div className="w-20 h-full border border-r-2 flex">
           <div className="flex flex-col gap-4 h-fit mx-auto mt-4">
