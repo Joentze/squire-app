@@ -8,11 +8,12 @@ const DashboardAddModal = () => {
   return (
     <div className="text-gray-700">
       <Modal
+        color="pink"
         size={"lg"}
         opened={opened}
         onClose={close}
         title={
-          <p className="text-xl font-bold text-gray-700 -mb-2">
+          <p className="text-xl font-bold text-pink-500 -mb-2">
             Create a New Recommendation Engine
           </p>
         }
@@ -24,7 +25,7 @@ const DashboardAddModal = () => {
           label="Engine Title"
           description="Give your engine a name."
         >
-          <Input id="input-demo" placeholder="Engine Name" />
+          <Input id="input-demo" placeholder="Engine Name" color="pink" />
         </Input.Wrapper>
         <br></br>
         <Input.Wrapper

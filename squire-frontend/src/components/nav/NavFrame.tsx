@@ -1,4 +1,4 @@
-import { ActionIcon, Tooltip } from "@mantine/core";
+import { ActionIcon, Tooltip, Text } from "@mantine/core";
 import { iconSizes } from "@mantine/core/lib/Stepper/Step/Step.styles";
 import {
   Icon3dCubeSphere,
@@ -18,6 +18,16 @@ const NavFrame = () => {
   return (
     <div className="w-full h-screen flex flex-col">
       <div className="w-full flex flex-row h-16 border border-b-2 p-4">
+        <Text
+          variant="gradient"
+          gradient={{ from: "#ed6ea0", to: "#ec8c69", deg: 35 }}
+          ta="center"
+          fz="3xl"
+          fw={700}
+          className="ml-2 text-xl"
+        >
+          Squire.
+        </Text>
         <div className="flex-grow"></div>
         <ActionIcon className="my-auto" size={"lg"}>
           <IconDotsVertical />

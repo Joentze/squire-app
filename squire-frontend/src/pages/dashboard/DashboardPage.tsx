@@ -17,18 +17,18 @@ const mockData = [
     title: "Wine Recommendation Engine",
     lastUpdated: "23/04/2023",
     id: "1234",
-    status: false,
+    status: true,
   },
   {
     title: "Wine Recommendation Engine",
     lastUpdated: "23/04/2023",
     id: "1234",
-    status: false,
+    status: true,
   },
 ];
 const DashboardPage = () => {
   return (
-    <div className="w-full h-full pb-16">
+    <div className="w-full h-full pb-24">
       <div className="w-full flex flex-row">
         <p className="text-gray-700 text-3xl font-bold flex-grow">
           <Text
@@ -48,14 +48,14 @@ const DashboardPage = () => {
       </p>
       <Divider className="my-8"></Divider>
       <div className="w-full h-full">
-        {mockData.length >= 0 ? (
+        {mockData.length > 0 ? (
           <Table
-            verticalSpacing={"md"}
+            verticalSpacing={"sm"}
             highlightOnHover
             className="select-none"
           >
             <thead>
-              <tr className="text-gray-700">
+              <tr className="text-pink-600">
                 <th>Title</th>
                 <th>Last Updated</th>
                 <th className="flex">
@@ -76,7 +76,7 @@ const DashboardPage = () => {
                           ONLINE
                         </div>
                       ) : (
-                        <div className="w-fit h-fit px-2 rounded-full bg-red-200 text-red-600 m-auto">
+                        <div className="w-fit h-fit px-2 rounded-full bg-red-200 text-red-500 m-auto">
                           OFFLINE
                         </div>
                       )}
