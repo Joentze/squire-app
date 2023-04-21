@@ -12,7 +12,7 @@ try:
     cred = credentials.Certificate(
         """/Users/tanjoen/Documents/squire-app/squire-backend/engine-builder/credentials/keys.json""")
     firebase_admin.initialize_app(
-        cred, {"storageBucket": "squire-backend.appspot.com"})
+        cred, {"storageBucket": "squire-backend-5c68c.appspot.com"})
 except Exception as error_message:
     firebase_admin.initialize_app()
 
@@ -58,20 +58,20 @@ def upload_recommendation(filename: str, data):
 
 
 if __name__ == "__main__":
-    with open("test.csv", "r", encoding="utf-8") as file:
-        two_d = list(csv.reader(file))
-    t1 = time.time()
-    engine = RecommendationEngine(two_d, ["Title", "SEO Description"])
+    # with open("test.csv", "r", encoding="utf-8") as file:
+    #     two_d = list(csv.reader(file))
+    # t1 = time.time()
+    # engine = RecommendationEngine(two_d, ["Title", "SEO Description"])
     # t2 = time.time()
     # results = engine.query_minhash(
     #     "Domaine J.A. Ferret Pouilly-Fuisse 2018", 5)
     # print(results)
     # t3 = time.time()
-    # upload_object_as_file(engine, "recommendation_engine_23_03_2023")
+    # upload_object_as_file(engine, "recommendation_engine_21_04_2023")
     # t4 = time.time()
     # print(f"time taken to build recommendation engine: {t2-t1}")
     # print(f"time taken to query recommendation engine: {t3-t2}")
     # print(f"time taken to upload recommendation engine: {t4-t3}")
-    # with urlopen("https://firebasestorage.googleapis.com/v0/b/squire-backend.appspot.com/o/recommendation_engine_23_03_2023?alt=media&token=47b11af3-fe74-4197-84f5-32e923329f4e") as pf:
-    #     engine = pickle.load(pf)
-    # print(engine.query_minhash("Domaine J.A. Ferret Pouilly-Fuisse 2018", 5))
+    with urlopen("https://firebasestorage.googleapis.com/v0/b/squire-backend-5c68c.appspot.com/o/recommendation_engine_21_04_2023?alt=media&token=0e1a0257-471b-4a1e-8c1e-b3140732ec44") as pf:
+        engine = pickle.load(pf)
+    print(engine.query_minhash("Domaine J.A. Ferret Pouilly-Fuisse 2018", 5))
