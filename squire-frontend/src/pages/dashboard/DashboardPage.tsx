@@ -46,11 +46,11 @@ const DashboardPage = () => {
         {" "}
         Supercharge your business by building recommendation engines ⚡️
       </p>
-      <Divider className="my-8"></Divider>
+      <Divider className="my-4"></Divider>
       <div className="w-full h-full">
         {mockData.length > 0 ? (
           <Table
-            verticalSpacing={"sm"}
+            verticalSpacing={"xs"}
             highlightOnHover
             className="select-none"
           >

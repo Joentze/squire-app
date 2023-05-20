@@ -25,6 +25,7 @@ const router = createBrowserRouter([
       { path: "/log/:runid", element: <DisplayLogPage /> },
       { path: "/build/:engineid", element: <BuildPage /> },
       { path: "/build/:engineid/:runid", element: <BuildProcessPage /> },
+      
     ],
   },
   {
