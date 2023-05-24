@@ -11,8 +11,8 @@ const ExcelFileDrop = () => {
       for (let wsname of wb.SheetNames) {
         const ws = wb.Sheets[wsname];
         const data = XLSX.utils.sheet_to_json(ws);
-        console.log(data);
-        console.log(formatExcelToPost(data, "Name", ["Name", "Type"]));
+        // console.log(data);
+        // console.log(formatExcelToPost(data, "Name", ["Name", "Type"]));
       }
     };
     reader.readAsBinaryString(file);
