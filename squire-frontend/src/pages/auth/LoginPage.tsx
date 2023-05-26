@@ -19,6 +19,7 @@ import {
 } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import { IoLogoGoogle } from "react-icons/io5";
+
 const LoginPage = () => {
   return (
     <Container size={420} my={40} color="pink">
