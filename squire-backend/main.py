@@ -13,9 +13,17 @@ except ImportError:
 
 # ====================FOR KEYS====================
 # ================================================
-def create_embedding(query:str)->List[float]:
+
+
+def create_embedding(query: str) -> List[float]:
     """creates text-embedding-ada-002 embeddings from query text"""
     return
+
+
+def get_best_matches(query: str, number_of_matches: int) -> List[object]:
+    """returns best matches with metadatas"""
+    return
+
 
 if __name__ == "__main__":
     pass
