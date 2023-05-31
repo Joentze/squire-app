@@ -1,6 +1,6 @@
 """main file"""
 import os
-
+from typing import List
 # ================================================
 # ====================FOR KEYS====================
 try:
@@ -13,3 +13,9 @@ except ImportError:
 
 # ====================FOR KEYS====================
 # ================================================
+def create_embedding(query:str)->List[float]:
+    """creates text-embedding-ada-002 embeddings from query text"""
+    return
+
+if __name__ == "__main__":
+    pass
