@@ -13,13 +13,20 @@ import * as functions from "firebase-functions";
 
 // import axios from "axios";
 import { defineString } from "firebase-functions/params";
+import { createClient } from "@supabase/supabase-js";
 
 // Define some parameters
 const OPEN_AI_KEY = defineString("OPEN_AI_KEY");
+const SUPABASE_URL = defineString("SUPABASE_URL");
+const SUPABASE_PWD = defineString("SUPABASE_PWD");
 
 exports.onChunkCreated = functions.firestore
   .document("/chunks/{chunk}")
   .onCreate(async (snap, context) => {
+    const supabaseClient = createClient(
+      SUPABASE_URL.value(),
+      SUPABASE_PWD.value()
+    );
     const { docs } = snap.data();
     return await Promise.all(
       docs.map(async (doc: string) => {
