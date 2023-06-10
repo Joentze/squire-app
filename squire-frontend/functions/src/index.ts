@@ -14,7 +14,7 @@ import * as functions from "firebase-functions";
 // import axios from "axios";
 import { defineString } from "firebase-functions/params";
 import { createClient } from "@supabase/supabase-js";
-
+import { FirestoreChunk, FirestoreChunkDoc } from "../types/firestoreTypes";
 // Define some parameters
 const OPEN_AI_KEY = defineString("OPEN_AI_KEY");
 const SUPABASE_URL = defineString("SUPABASE_URL");
@@ -29,7 +29,8 @@ exports.onChunkCreated = functions.firestore
     );
     const { docs } = snap.data();
     return await Promise.all(
-      docs.map(async (doc: string) => {
+      docs.map(async (chunk: FirestoreChunkDoc) => {
+        const { document, metadata } = chunk;
         fetch("https://api.openai.com/v1/embeddings", {
           headers: {
             "Content-Type": "application/json",
@@ -37,7 +38,7 @@ exports.onChunkCreated = functions.firestore
           },
           method: "POST",
           body: JSON.stringify({
-            input: doc,
+            input: document,
             model: "text-embedding-ada-002",
           }),
         }).then(async (response) => {
