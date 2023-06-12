@@ -1,7 +1,9 @@
 -- ADD THIS TO CREATE VECTOR TABLE ON SUPABASE
-create table documents(
-  id bigserial primary key,
-  content text,
-  source text,
-  embedding vector (1536)
-)
+CREATE TABLE document (
+    id UUID PRIMARY KEY,
+    project_id TEXT,
+    build_id TEXT,
+    data JSON,
+    timestamp TIMESTAMP,
+    embedding vector (1536)
+);
