@@ -10,7 +10,7 @@
 // Start writing functions
 // https://firebase.google.com/docs/functions/typescript
 import * as functions from "firebase-functions";
-
+import admin = require("firebase-admin");
 // import axios from "axios";
 import { defineString } from "firebase-functions/params";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
@@ -18,6 +18,8 @@ import {
   FirestoreChunkDoc,
   SupabaseEmbeddingType,
 } from "../types/firestoreTypes";
+//initialise app
+admin.initializeApp(functions.config().firebase);
 // Define some parameters
 const OPEN_AI_KEY = defineString("OPEN_AI_KEY");
 const SUPABASE_URL = defineString("SUPABASE_URL");
@@ -47,7 +49,6 @@ exports.onChunkCreated = functions.firestore
         }).then(async (response) => {
           const { data } = await response.json();
           const embedding = data[0].embedding;
-          console.log(embedding);
           await writeEmbeddings(supabaseClient, {
             embedding,
             project_id,
@@ -57,7 +58,14 @@ exports.onChunkCreated = functions.firestore
           });
         });
       })
-    ).then(() => true);
+    ).then(async () => {
+      const { id } = snap.ref;
+      await admin
+        .firestore()
+        .collection("chunks")
+        .doc(id)
+        .update({ status: "SUCCESS" });
+    });
   });
 
 const writeEmbeddings = async (
