@@ -13,8 +13,11 @@ import * as functions from "firebase-functions";
 
 // import axios from "axios";
 import { defineString } from "firebase-functions/params";
-import { createClient } from "@supabase/supabase-js";
-import { FirestoreChunk, FirestoreChunkDoc } from "../types/firestoreTypes";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import {
+  FirestoreChunkDoc,
+  SupabaseEmbeddingType,
+} from "../types/firestoreTypes";
 // Define some parameters
 const OPEN_AI_KEY = defineString("OPEN_AI_KEY");
 const SUPABASE_URL = defineString("SUPABASE_URL");
@@ -27,7 +30,7 @@ exports.onChunkCreated = functions.firestore
       SUPABASE_URL.value(),
       SUPABASE_PWD.value()
     );
-    const { docs } = snap.data();
+    const { docs, project_id, build_id } = snap.data();
     return await Promise.all(
       docs.map(async (chunk: FirestoreChunkDoc) => {
         const { document, metadata } = chunk;
@@ -44,13 +47,23 @@ exports.onChunkCreated = functions.firestore
         }).then(async (response) => {
           const { data } = await response.json();
           const embedding = data[0].embedding;
-          return embedding;
+          console.log(embedding);
+          await writeEmbeddings(supabaseClient, {
+            embedding,
+            project_id,
+            build_id,
+            data: metadata,
+            timestamp: new Date(),
+          });
         });
       })
-    )
-      .then((results) => {
-        console.log(results.length);
-        return true;
-      })
-      .catch((error) => console.error(error));
+    ).then(() => true);
   });
+
+const writeEmbeddings = async (
+  supabase: SupabaseClient,
+  embeddings: SupabaseEmbeddingType
+): Promise<boolean> => {
+  const { error } = await supabase.from("document").insert(embeddings);
+  return error ? false : true;
+};
