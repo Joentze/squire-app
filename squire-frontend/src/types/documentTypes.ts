@@ -9,3 +9,7 @@ export interface FirestoreChunkDoc {
   document: string;
   metadata: object;
 }
+
+export const enum Chunk {
+  SIZE = 50,
+}

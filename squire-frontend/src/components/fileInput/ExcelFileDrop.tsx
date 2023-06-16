@@ -12,7 +12,7 @@ const ExcelFileDrop = () => {
         const ws = wb.Sheets[wsname];
         const data = XLSX.utils.sheet_to_json(ws);
         // console.log(data);
-        // console.log(formatExcelToPost(data, "Name", ["Name", "Type"]));
+        console.log(formatExcelToPost(data, ["Name", "Type"]));
       }
     };
     reader.readAsBinaryString(file);

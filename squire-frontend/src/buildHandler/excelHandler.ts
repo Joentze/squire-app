@@ -1,19 +1,18 @@
+// import { FirebaseChunkDoc } from "../types/documentTypes";
+
 export interface ExcelSupabaseWrite {
-  itemId: string;
-  description: string;
+  document: string;
   metadata: object;
 }
 
 export const formatExcelToPost = (
   rows: any[],
-  idLabel: string,
   descLabels: string[]
 ): ExcelSupabaseWrite[] => {
   let supabaseWriteExcelFormat: ExcelSupabaseWrite[] = [];
   for (let row of rows) {
     let currRow: ExcelSupabaseWrite = {
-      itemId: idLabel,
-      description: "",
+      document: "",
       metadata: row,
     };
     let currDescription = "";
@@ -22,9 +21,12 @@ export const formatExcelToPost = (
         currDescription = currDescription.concat(` ${row[label] as string}`);
       }
     }
-    currRow["description"] = currDescription;
-    currRow["itemId"] = row[idLabel];
+    currRow["document"] = currDescription;
     supabaseWriteExcelFormat.push(currRow);
   }
   return supabaseWriteExcelFormat as ExcelSupabaseWrite[];
 };
+
+// export const sliceRowsIntoChunks = (): FirebaseChunkDoc[][] => {
+
+// };
