@@ -19,13 +19,12 @@ except ImportError:
 # ====================FOR KEYS====================
 # ================================================
 
-SIMILARITY_THRESHOLD = 0.7
+SIMILARITY_THRESHOLD = 0.001
 
 openai.api_key = OPENAI_API_KEY
 
 supabase_client = create_client(
     supabase_url=SUPABASE_URL, supabase_key=SUPABASE_PWD)
-
 
 def get_best_matches(query: str,
                      number_of_matches: int,
@@ -42,7 +41,21 @@ def get_best_matches(query: str,
     }).execute()
     return matches
 
+from flask import Flask, request
+app = Flask(__name__)
 
+@app.route('/api', methods=['GET'])
+
+def get_data():
+    query = request.args.get('query')
+    number_of_matches = request.args.get('number_of_matches')
+    project_id = request.args.get('project_id')
+    build_id = request.args.get('build_id')
+    
+    response = get_best_matches(query, number_of_matches, build_id, project_id)
+    return response.data
+    
 if __name__ == "__main__":
-    response = get_best_matches("hello world", 1, "id_1", "id_2")
-    print(response)
+    app.run(port=8000, debug=True)
+    # response = get_best_matches("hello world", 1, "id_1", "id_2")
+    # print(response)
