@@ -1,7 +1,8 @@
 export interface FirestoreChunk {
+  createdOn: Date;
   docs: FirestoreChunkDoc[];
-  projectId: string;
-  buildId: string;
+  project_id: string;
+  build_id: string;
   status: "PROCESSING" | "ERROR" | "SUCCESS";
 }
 
