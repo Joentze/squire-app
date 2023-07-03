@@ -23,7 +23,8 @@ const router = createBrowserRouter([
       { path: "/dashboard", element: <DashboardPage /> },
       // { path: "/logs", element: <LogsListPage /> },
       // { path: "/log/:runid", element: <DisplayLogPage /> },
-      { path: "/projects/:projectId", element: <>List Projects</> },
+      { path: "/projects/", element: <>List Projects</> },
+      { path: "/projects/:projectId", element: <>Project Page</> },
       { path: "/projects/:projectId/builds/:buildId", element: <BuildPage /> },
       {
         path: "/projects/:projectId/builds/:buildId/log",
