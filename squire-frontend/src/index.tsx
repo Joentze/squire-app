@@ -21,11 +21,15 @@ const router = createBrowserRouter([
     element: <NavFrame />,
     children: [
       { path: "/dashboard", element: <DashboardPage /> },
-      { path: "/logs", element: <LogsListPage /> },
-      { path: "/log/:runid", element: <DisplayLogPage /> },
-      { path: "/build/:engineid", element: <BuildPage /> },
-      { path: "/build/:engineid/:runid", element: <BuildProcessPage /> },
-      
+      // { path: "/logs", element: <LogsListPage /> },
+      // { path: "/log/:runid", element: <DisplayLogPage /> },
+      { path: "/projects/:projectId", element: <>List Projects</> },
+      { path: "/projects/:projectId/builds/:buildId", element: <BuildPage /> },
+      {
+        path: "/projects/:projectId/builds/:buildId/log",
+        element: <>List Logs</>,
+      },
+      // { path: "/build/:engineid/:runid", element: <BuildProcessPage /> },
     ],
   },
   {

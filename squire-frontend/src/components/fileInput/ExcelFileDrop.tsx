@@ -35,7 +35,7 @@ const ExcelFileDrop: React.FC<IExcelFileDrop> = ({ setRows }) => {
     <input
       type="file"
       onInput={onFileDrop}
-      className="bg-gray-100 rounded-lg border border-2 p-1 w-full"
+      className="bg-gray-100 rounded-lg border font-mono p-1 w-full"
     />
   );
 };
