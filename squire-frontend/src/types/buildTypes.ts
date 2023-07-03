@@ -1,5 +1,5 @@
 export interface BuildType {
   projectId: string;
-  description: string;
+  comments?: string;
   createdOn: Date;
 }
