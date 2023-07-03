@@ -37,12 +37,12 @@ const DashboardPage = () => {
             fz="3xl"
             fw={700}
           >
-            Dashboard
+            Your Projects
           </Text>
         </p>
         <DashboardAddModal />
       </div>
-      <p className="mt-2 text-gray-500">
+      <p className="text-gray-500">
         {" "}
         Supercharge your business by building recommendation engines ⚡️
       </p>

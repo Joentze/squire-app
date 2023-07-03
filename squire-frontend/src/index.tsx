@@ -14,11 +14,17 @@ import NavFrame from "./components/nav/NavFrame";
 import ErrorPage from "./pages/misc/ErrorPage";
 import LoginPage from "./pages/auth/LoginPage";
 import SignUpPage from "./pages/auth/SignUpPage";
+import ProtectedRoute from "./route/PrivateRoute";
+import { FirebaseAuthWrapper } from "./firebase/auth/AuthContextWrapper";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <NavFrame />,
+    element: (
+      <ProtectedRoute>
+        <NavFrame />
+      </ProtectedRoute>
+    ),
     children: [
       { path: "/dashboard", element: <DashboardPage /> },
       // { path: "/logs", element: <LogsListPage /> },
@@ -51,7 +57,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <FirebaseAuthWrapper>
+      <RouterProvider router={router} />
+    </FirebaseAuthWrapper>
   </React.StrictMode>
 );
 

@@ -17,10 +17,21 @@ import {
   IconArrowRightTail,
   IconBrandGoogle,
 } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoLogoGoogle } from "react-icons/io5";
+import { signInWithGoogle } from "../../firebase/auth/signInWithGoogle";
+import { useAuth } from "../../firebase/auth/AuthContextWrapper";
+import { useEffect } from "react";
 
 const LoginPage = () => {
+  const auth = useAuth();
+  const navigate = useNavigate();
+  useEffect(() => {
+    console.log(auth);
+    if (auth) {
+      navigate("/dashboard");
+    }
+  }, [auth]);
   return (
     <Container size={420} my={40} color="pink">
       <Title
@@ -69,7 +80,12 @@ const LoginPage = () => {
         <br></br>
         <Divider label="Or" labelPosition="center" color={"gray"} />
         <br></br>
-        <ActionIcon color={"pink"} className="m-auto" size={"xl"}>
+        <ActionIcon
+          color={"pink"}
+          className="m-auto"
+          size={"xl"}
+          onClick={signInWithGoogle}
+        >
           <IoLogoGoogle></IoLogoGoogle>
         </ActionIcon>
       </Paper>

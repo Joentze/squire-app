@@ -10,7 +10,7 @@ const ProtectedRoute: React.FC<IProtectedRoute> = ({ children }) => {
   const auth = useAuth();
   return (
     <div className="">
-      {auth !== undefined ? <>{children}</> : <Navigate to={"/home"} />}
+      {auth !== undefined ? <>{children}</> : <Navigate to={"/login"} />}
     </div>
   );
 };
