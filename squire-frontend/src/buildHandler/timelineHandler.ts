@@ -1,6 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 import { TimelineBuildItem } from "../components/timeline/BuildTimeline";
 import { BuildType } from "../types/buildTypes";
+import { BuildDisplayType } from "./buildHandler";
 
 export const buildsToTimeline = (builds: BuildType[]): TimelineBuildItem[] => {
   let buildItems: TimelineBuildItem[] = [];
@@ -20,7 +21,7 @@ export const buildsToTimeline = (builds: BuildType[]): TimelineBuildItem[] => {
   for (const [key, value] of Object.entries(dateCollection)) {
     buildItems.push({
       dateString: key,
-      allBuilds: value as BuildType[],
+      allBuilds: value as BuildDisplayType[],
     });
   }
   return buildItems;

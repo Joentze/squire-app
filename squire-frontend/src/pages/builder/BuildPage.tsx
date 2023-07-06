@@ -43,7 +43,7 @@ const BuildPage = () => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-row">
-        <Text weight={"bolder"} size="lg">
+        <Text weight={"bolder"} size="lg" color={"pink"}>
           Project Name
         </Text>
         <div className="flex-grow"></div>

@@ -7,6 +7,10 @@ import {
   FirestoreChunkDoc,
 } from "../types/documentTypes";
 
+export interface BuildDisplayType extends BuildType {
+  id: string;
+}
+
 export const postChunk = async (
   chunk: FirestoreChunkDoc[],
   projectId: string,
@@ -54,16 +58,35 @@ export const writeAllChunks = async (
 
 export const getBuildAllDetails = async (
   projectId: string
-): Promise<BuildType[]> => {
+): Promise<BuildDisplayType[]> => {
   try {
     const collectionRef = collection(db, "builds");
     const q = query(collectionRef, where("projectId", "==", projectId));
     const snapshot = await getDocs(q);
-    let builds: BuildType[] = [];
-    snapshot.forEach((doc) => builds.push(doc.data() as BuildType));
+    let builds: BuildDisplayType[] = [];
+    snapshot.forEach((doc) =>
+      builds.push({ id: doc.id, ...(doc.data() as BuildType) })
+    );
     return builds;
   } catch (e) {
     console.error(e);
     throw new Error("Unable to get builds at this moment!");
+  }
+};
+
+export const createNewBuild = async (
+  projectId: string,
+  createdBy: string
+): Promise<string> => {
+  try {
+    const collectionRef = collection(db, "builds");
+    const response = await addDoc(collectionRef, {
+      projectId,
+      createdBy,
+      createdOn: new Date(),
+    } as BuildType);
+    return response.id;
+  } catch (e) {
+    throw new Error("Unable to get new build at this moment!");
   }
 };

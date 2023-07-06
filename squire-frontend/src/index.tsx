@@ -32,7 +32,7 @@ const router = createBrowserRouter([
       // { path: "/log/:runid", element: <DisplayLogPage /> },
       { path: "/projects/", element: <>List Projects</> },
       { path: "/projects/:projectId", element: <ProjectPage /> },
-      { path: "/projects/:projectId/builds/:buildId", element: <BuildPage /> },
+      { path: "/project/:projectId/build/:buildId", element: <BuildPage /> },
       {
         path: "/projects/:projectId/builds/:buildId/log",
         element: <>List Logs</>,

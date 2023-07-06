@@ -1,10 +1,10 @@
 import { Timeline, Text, Divider } from "@mantine/core";
 import { IconHammer } from "@tabler/icons-react";
-import { BuildType } from "../../types/buildTypes";
+import { BuildDisplayType } from "../../buildHandler/buildHandler";
 
 export interface TimelineBuildItem {
   dateString: string;
-  allBuilds: BuildType[];
+  allBuilds: BuildDisplayType[];
 }
 
 export interface IBuildTimeline {
@@ -25,7 +25,7 @@ const BuildTimeline: React.FC<IBuildTimeline> = ({ builds }) => {
             {chunk.allBuilds.map((build) => {
               return (
                 <>
-                  <Text>{build.projectId}</Text>
+                  <Text>{build.id}</Text>
                   <Text color="dimmed" size="xs">
                     {build.comments === undefined
                       ? "No Comments"
