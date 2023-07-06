@@ -1,5 +1,6 @@
 import { db } from "../firebase/base";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc } from "firebase/firestore";
+import { ProjectType } from "../types/projectTypes";
 
 export const createProject = async (
   name: string,
@@ -17,5 +18,17 @@ export const createProject = async (
     return newProject.id;
   } catch (e) {
     throw new Error("Unable to create new project at this time!");
+  }
+};
+
+export const getProjectDetails = async (
+  projectId: string
+): Promise<ProjectType> => {
+  try {
+    const docRef = doc(db, "projects", projectId);
+    const response = await getDoc(docRef);
+    return response.data() as ProjectType;
+  } catch (e) {
+    throw new Error("Unable to get project at this time!");
   }
 };

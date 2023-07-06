@@ -1,5 +1,6 @@
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase/base";
+import { BuildType } from "../types/buildTypes";
 import {
   Chunk,
   FirestoreChunk,
@@ -48,5 +49,21 @@ export const writeAllChunks = async (
     );
   } catch (e) {
     throw new Error("There was an error with uploading chunks");
+  }
+};
+
+export const getBuildAllDetails = async (
+  projectId: string
+): Promise<BuildType[]> => {
+  try {
+    const collectionRef = collection(db, "builds");
+    const q = query(collectionRef, where("projectId", "==", projectId));
+    const snapshot = await getDocs(q);
+    let builds: BuildType[] = [];
+    snapshot.forEach((doc) => builds.push(doc.data() as BuildType));
+    return builds;
+  } catch (e) {
+    console.error(e);
+    throw new Error("Unable to get builds at this moment!");
   }
 };

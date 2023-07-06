@@ -9,7 +9,7 @@ import {
 import { Link, Outlet, useLocation } from "react-router-dom";
 
 const navContent = [
-  { path: "/dashboard", title: "Dashboard", icon: <IconLayoutDashboard /> },
+  { path: "/", title: "Dashboard", icon: <IconLayoutDashboard /> },
   { path: "/logs", title: "Build Logs", icon: <IconListCheck /> },
 ];
 

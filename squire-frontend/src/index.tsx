@@ -16,6 +16,7 @@ import LoginPage from "./pages/auth/LoginPage";
 import SignUpPage from "./pages/auth/SignUpPage";
 import ProtectedRoute from "./route/PrivateRoute";
 import { FirebaseAuthWrapper } from "./firebase/auth/AuthContextWrapper";
+import ProjectPage from "./pages/project/ProjectPage";
 
 const router = createBrowserRouter([
   {
@@ -26,11 +27,11 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
-      { path: "/dashboard", element: <DashboardPage /> },
+      { path: "/", element: <DashboardPage /> },
       // { path: "/logs", element: <LogsListPage /> },
       // { path: "/log/:runid", element: <DisplayLogPage /> },
       { path: "/projects/", element: <>List Projects</> },
-      { path: "/projects/:projectId", element: <>Project Page</> },
+      { path: "/projects/:projectId", element: <ProjectPage /> },
       { path: "/projects/:projectId/builds/:buildId", element: <BuildPage /> },
       {
         path: "/projects/:projectId/builds/:buildId/log",
