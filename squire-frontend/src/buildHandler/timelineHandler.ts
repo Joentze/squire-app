@@ -24,5 +24,5 @@ export const buildsToTimeline = (builds: BuildType[]): TimelineBuildItem[] => {
       allBuilds: value as BuildDisplayType[],
     });
   }
-  return buildItems;
+  return buildItems.reverse();
 };

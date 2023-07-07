@@ -1,6 +1,15 @@
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { db } from "../firebase/base";
-import { BuildType } from "../types/buildTypes";
+import { BuildStatus, BuildType } from "../types/buildTypes";
 import {
   Chunk,
   FirestoreChunk,
@@ -45,12 +54,13 @@ export const writeAllChunks = async (
   docs: FirestoreChunkDoc[],
   projectId: string,
   buildId: string
-): Promise<void> => {
+): Promise<number> => {
   try {
     const chunks: FirestoreChunkDoc[][] = splitDocChunks(docs);
     await Promise.all(
       chunks.map(async (chunk) => postChunk(chunk, projectId, buildId))
     );
+    return chunks.length;
   } catch (e) {
     throw new Error("There was an error with uploading chunks");
   }
@@ -84,9 +94,59 @@ export const createNewBuild = async (
       projectId,
       createdBy,
       createdOn: new Date(),
+      status: BuildStatus.INCOMPLETE,
     } as BuildType);
     return response.id;
   } catch (e) {
     throw new Error("Unable to get new build at this moment!");
+  }
+};
+
+export const addBuildComment = async (
+  buildId: string,
+  comments: string
+): Promise<void> => {
+  try {
+    const docRef = doc(db, "builds", buildId);
+    await updateDoc(docRef, { comments });
+  } catch (e) {
+    console.error(e);
+    throw new Error("Unable to add comments at this time!");
+  }
+};
+
+export const setChunkNo = async (
+  buildId: string,
+  chunkNo: number
+): Promise<void> => {
+  try {
+    const docRef = doc(db, "builds", buildId);
+    await updateDoc(docRef, { chunkNo });
+  } catch (e) {
+    console.error(e);
+    throw new Error("Unable to add chunk number at this time!");
+  }
+};
+
+export const setStatus = async (
+  buildId: string,
+  status: BuildStatus
+): Promise<void> => {
+  try {
+    const docRef = doc(db, "builds", buildId);
+    await updateDoc(docRef, { status });
+  } catch (e) {
+    console.error(e);
+    throw new Error("Unable to add comments at this time!");
+  }
+};
+
+export const getBuildDetails = async (buildId: string): Promise<BuildType> => {
+  try {
+    const docRef = doc(db, "builds", buildId);
+    const response = await getDoc(docRef);
+    return response.data() as BuildType;
+  } catch (e) {
+    throw new Error("Unable to get build detail at this time!");
   }
 };

@@ -12,5 +12,5 @@ export interface FirestoreChunkDoc {
 }
 
 export const enum Chunk {
-  SIZE = 5,
+  SIZE = 10,
 }

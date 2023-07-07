@@ -8,15 +8,22 @@ import {
   useState,
 } from "react";
 import { IoArrowDown } from "react-icons/io5";
-import { useParams } from "react-router-dom";
-import { writeAllChunks } from "../../buildHandler/buildHandler";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  addBuildComment,
+  setChunkNo,
+  setStatus,
+  writeAllChunks,
+} from "../../buildHandler/buildHandler";
 import {
   ExcelSupabaseWrite,
   formatExcelToPost,
 } from "../../buildHandler/excelHandler";
 import ExcelFileDrop from "../../components/fileInput/ExcelFileDrop";
+import CircleProgress from "../../components/progress/CircleProgress";
 import ResultTable from "../../components/table/ResultTable";
 import { getProjectDetails } from "../../projectHandler/projectHandler";
+import { BuildStatus } from "../../types/buildTypes";
 import { ProjectDisplayType, ProjectType } from "../../types/projectTypes";
 
 interface MantineMultiType {
@@ -39,9 +46,24 @@ const BuildPage = () => {
   const [selectedLabels, setSelectedLabels] = useState<string[]>([]);
   const [comments, setComments] = useState<string>("");
   const [project, setProject] = useState<ProjectType>();
+  const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
   const uploadChunk = async () => {
-    const newChunks = formatExcelToPost(rows, selectedLabels);
-    await writeAllChunks(newChunks, projectId as string, buildId as string);
+    try {
+      const newChunks = formatExcelToPost(rows, selectedLabels);
+      setLoading(true);
+      const chunkNo = await writeAllChunks(
+        newChunks,
+        projectId as string,
+        buildId as string
+      );
+      await setChunkNo(buildId as string, chunkNo);
+      await addBuildComment(buildId as string, comments);
+      await setStatus(buildId as string, BuildStatus.COMPLETED);
+      navigate(`/build/${buildId}/log`);
+    } catch (e) {
+      console.error(e);
+    }
   };
   useEffect(() => {
     if (projectId) {
@@ -70,21 +92,25 @@ const BuildPage = () => {
           {project?.name}
         </Text>
         <div className="flex-grow"></div>
-        <Button
-          color={"pink"}
-          onClick={uploadChunk}
-          variant={"filled"}
-          className="bg-pink-600"
-          disabled={
-            !(
-              rows.length > 0 &&
-              selectedLabels.length > 0 &&
-              comments.length > 0
-            )
-          }
-        >
-          Build Engine 🔨
-        </Button>
+        {loading ? (
+          <CircleProgress className="text-pink-600" />
+        ) : (
+          <Button
+            color={"pink"}
+            onClick={uploadChunk}
+            variant={"filled"}
+            className="bg-pink-600"
+            disabled={
+              !(
+                rows.length > 0 &&
+                selectedLabels.length > 0 &&
+                comments.length > 0
+              )
+            }
+          >
+            Build Engine 🔨
+          </Button>
+        )}
       </div>
       <Text color="dimmed">{project?.description}</Text>
       <Divider />
@@ -115,15 +141,15 @@ const BuildPage = () => {
               onChange={setSelectedLabels}
               limit={5}
               withAsterisk
-              className="border-1 border-pink-100"
+              className="border-1 border-pink-100 "
               searchable
               data={colLabels}
               label="Labels"
               placeholder="Labels"
               size={"md"}
-              description="Pick at least one column label to base your recommendations on."
+              description="Pick at least one column label to base your recommendations on"
             />
-            <Text>Items</Text>
+            <Text weight="">Items</Text>
             <ResultTable
               selectedLabels={selectedLabels}
               values={rows.slice(0, 20)}

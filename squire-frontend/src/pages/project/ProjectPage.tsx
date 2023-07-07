@@ -1,4 +1,11 @@
-import { ActionIcon, Button, Divider, Text, Tooltip } from "@mantine/core";
+import {
+  ActionIcon,
+  Button,
+  Chip,
+  Divider,
+  Text,
+  Tooltip,
+} from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
@@ -25,6 +32,7 @@ const ProjectPage = () => {
   const [builds, setBuilds] = useState<BuildType[]>([]);
   const navigate = useNavigate();
   const [timelineItems, setTimelineItems] = useState<TimelineBuildItem[]>([]);
+
   useEffect(() => {
     if (projectId) {
       const getProject = async (): Promise<void> => {
@@ -89,12 +97,15 @@ const ProjectPage = () => {
           {project?.description}
         </Text>
         <Divider className="mt-2" />
-        <Text weight={"bolder"} color="pink" my={4} size="lg">
-          Build History
-        </Text>
+
         <div className="mt-2 w-full h-full flex flex-col">
           {timelineItems.length > 0 ? (
-            <BuildTimeline builds={timelineItems}></BuildTimeline>
+            <>
+              <Text weight={"bolder"} color="pink" my={4} size="lg">
+                Build History
+              </Text>
+              <BuildTimeline builds={timelineItems}></BuildTimeline>
+            </>
           ) : (
             <div className="w-full h-full flex flex-col text-slate-300">
               <div className="m-auto flex flex-col">
