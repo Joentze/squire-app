@@ -12,7 +12,7 @@ const ProjectsTable: React.FC<IProjectsTable> = ({ projects }) => {
   const navigate = useNavigate();
   const formatDateTime = (dateTime: Timestamp): string => {
     const datetime = dateTime.toDate();
-    return `${datetime.getDay()}/${
+    return `${datetime.getDate()}/${
       datetime.getMonth() + 1
     }/${datetime.getFullYear()}`;
   };

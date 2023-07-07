@@ -1,6 +1,14 @@
-import { Button, Divider, MultiSelect, Text } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { Button, Divider, Input, MultiSelect, Text } from "@mantine/core";
+import { IconChartBubble, IconPencil, IconTag } from "@tabler/icons-react";
+import {
+  ChangeEvent,
+  ChangeEventHandler,
+  EventHandler,
+  useEffect,
+  useState,
+} from "react";
 import { IoArrowDown } from "react-icons/io5";
+import { useParams } from "react-router-dom";
 import { writeAllChunks } from "../../buildHandler/buildHandler";
 import {
   ExcelSupabaseWrite,
@@ -8,6 +16,8 @@ import {
 } from "../../buildHandler/excelHandler";
 import ExcelFileDrop from "../../components/fileInput/ExcelFileDrop";
 import ResultTable from "../../components/table/ResultTable";
+import { getProjectDetails } from "../../projectHandler/projectHandler";
+import { ProjectDisplayType, ProjectType } from "../../types/projectTypes";
 
 interface MantineMultiType {
   label: string;
@@ -23,13 +33,26 @@ interface MantineMultiType {
 // };
 
 const BuildPage = () => {
+  const { projectId, buildId } = useParams();
   const [rows, setRows] = useState<object[]>([]);
   const [colLabels, setColLabels] = useState<string[]>([""]);
   const [selectedLabels, setSelectedLabels] = useState<string[]>([]);
+  const [comments, setComments] = useState<string>("");
+  const [project, setProject] = useState<ProjectType>();
   const uploadChunk = async () => {
     const newChunks = formatExcelToPost(rows, selectedLabels);
-    await writeAllChunks(newChunks, "test_movie_pid", "test_movie_bid");
+    await writeAllChunks(newChunks, projectId as string, buildId as string);
   };
+  useEffect(() => {
+    if (projectId) {
+      const getProject = async (): Promise<void> => {
+        const projectDetails = await getProjectDetails(projectId);
+        setProject(projectDetails);
+      };
+      getProject();
+    }
+  }, []);
+
   useEffect(() => {
     // console.log(rows);
     if (rows.length > 0) {
@@ -44,17 +67,26 @@ const BuildPage = () => {
     <div className="flex flex-col gap-2">
       <div className="flex flex-row">
         <Text weight={"bolder"} size="lg" color={"pink"}>
-          Project Name
+          {project?.name}
         </Text>
         <div className="flex-grow"></div>
         <Button
+          color={"pink"}
           onClick={uploadChunk}
-          variant={"default"}
-          disabled={!(rows.length > 0 && selectedLabels.length > 0)}
+          variant={"filled"}
+          className="bg-pink-600"
+          disabled={
+            !(
+              rows.length > 0 &&
+              selectedLabels.length > 0 &&
+              comments.length > 0
+            )
+          }
         >
           Build Engine 🔨
         </Button>
       </div>
+      <Text color="dimmed">{project?.description}</Text>
       <Divider />
       <>
         {rows.length === 0 ? (
@@ -64,7 +96,22 @@ const BuildPage = () => {
           </div>
         ) : (
           <div className="flex flex-col gap-2">
+            <Input.Wrapper
+              label="Build Message"
+              required
+              size={"md"}
+              description="Write comment about build"
+            >
+              <Input
+                placeholder="Example: 'Added new products'"
+                icon={<IconPencil />}
+                onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                  setComments(event.target.value)
+                }
+              />
+            </Input.Wrapper>
             <MultiSelect
+              icon={<IconTag />}
               onChange={setSelectedLabels}
               limit={5}
               withAsterisk

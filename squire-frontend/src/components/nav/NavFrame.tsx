@@ -1,15 +1,18 @@
-import { ActionIcon, Tooltip, Text } from "@mantine/core";
+import { ActionIcon, Tooltip, Text, Menu } from "@mantine/core";
 import { iconSizes } from "@mantine/core/lib/Stepper/Step/Step.styles";
+import { signOut } from "firebase/auth";
 import {
   Icon3dCubeSphere,
   IconDotsVertical,
   IconLayoutDashboard,
   IconListCheck,
 } from "@tabler/icons-react";
+import { IoLogOut } from "react-icons/io5";
 import { Link, Outlet, useLocation } from "react-router-dom";
+import { auth } from "../../firebase/base";
 
 const navContent = [
-  { path: "/", title: "Dashboard", icon: <IconLayoutDashboard /> },
+  { path: "/dashboard", title: "Dashboard", icon: <IconLayoutDashboard /> },
   { path: "/logs", title: "Build Logs", icon: <IconListCheck /> },
 ];
 
@@ -29,9 +32,22 @@ const NavFrame = () => {
           Squire.
         </Text>
         <div className="flex-grow"></div>
-        <ActionIcon className="my-auto" size={"lg"}>
-          <IconDotsVertical />
-        </ActionIcon>
+        <Menu width={200}>
+          <Menu.Target>
+            <ActionIcon className="my-auto" size={"lg"}>
+              <IconDotsVertical />
+            </ActionIcon>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Item
+              icon={<IoLogOut />}
+              color="red"
+              onClick={() => signOut(auth)}
+            >
+              Logout
+            </Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
       </div>
       <div className="grid grid-cols-9 w-full flex-grow">
         <div className="w-20 h-full border border-r-2 flex">

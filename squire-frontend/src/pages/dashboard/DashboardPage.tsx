@@ -56,7 +56,7 @@ const DashboardPage = () => {
           <Text
             variant="gradient"
             gradient={{ from: "#ed6ea0", to: "#ec8c69", deg: 35 }}
-            fz="2xl"
+            fz="xl"
             fw={700}
           >
             Your Projects
@@ -68,7 +68,7 @@ const DashboardPage = () => {
         {" "}
         Supercharge your business by building recommendation engines ⚡️
       </p>
-      <Divider className="my-4"></Divider>
+      <Divider className="my-2"></Divider>
       <div className="w-full h-full flex flex-col">
         {loading ? (
           <div className="m-auto">

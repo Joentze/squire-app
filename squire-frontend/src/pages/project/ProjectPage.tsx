@@ -1,4 +1,4 @@
-import { ActionIcon, Divider, Text, Tooltip } from "@mantine/core";
+import { ActionIcon, Button, Divider, Text, Tooltip } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
@@ -63,7 +63,7 @@ const ProjectPage = () => {
     <>
       <div className="flex flex-col w-full h-full">
         <div className="flex flex-row">
-          <Text weight={"bold"} color="pink">
+          <Text weight={"bold"} color="pink" size={"xl"}>
             {project?.name}
           </Text>
           <div className="flex-grow"></div>
@@ -71,23 +71,27 @@ const ProjectPage = () => {
             {loading ? (
               <CircleProgress className="text-pink-600 mr-2 my-2" />
             ) : (
-              <Tooltip label="Start a Build" position="bottom" mt={2}>
-                <ActionIcon
-                  className=""
-                  onClick={async () => {
-                    await createBuild();
-                  }}
-                >
-                  <IconPlus size="2.125rem" />
-                </ActionIcon>
-              </Tooltip>
+              <Button
+                variant={"filled"}
+                className="bg-pink-500"
+                color="pink"
+                leftIcon={<IconPlus />}
+                onClick={async () => {
+                  await createBuild();
+                }}
+              >
+                Create Build
+              </Button>
             )}
           </>
         </div>
-        <Text size={"sm"} weight={"normal"} color="dimmed">
+        <Text size={"sm"} weight={"normal"} color="dimmed" mt={2}>
           {project?.description}
         </Text>
-        <Divider />
+        <Divider className="mt-2" />
+        <Text weight={"bolder"} color="pink" my={4} size="lg">
+          Build History
+        </Text>
         <div className="mt-2 w-full h-full flex flex-col">
           {timelineItems.length > 0 ? (
             <BuildTimeline builds={timelineItems}></BuildTimeline>
