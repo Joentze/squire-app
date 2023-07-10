@@ -1,5 +1,5 @@
-import { ActionIcon, Table } from "@mantine/core";
-import { IconDotsVertical } from "@tabler/icons-react";
+import { ActionIcon, Menu, Table } from "@mantine/core";
+import { IconDotsVertical, IconTrash } from "@tabler/icons-react";
 import { Timestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { ProjectDisplayType } from "../../types/projectTypes";
@@ -34,9 +34,18 @@ const ProjectsTable: React.FC<IProjectsTable> = ({ projects }) => {
                 {formatDateTime(item.createdOn as Timestamp)}
               </td>
               <td>
-                <ActionIcon>
-                  <IconDotsVertical />
-                </ActionIcon>
+                <Menu width={200} position="bottom-start">
+                  <Menu.Target>
+                    <ActionIcon>
+                      <IconDotsVertical />
+                    </ActionIcon>
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <Menu.Item icon={<IconTrash />} color="red">
+                      Delete
+                    </Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
               </td>
             </tr>
           );

@@ -17,6 +17,7 @@ const BuildLogPage = () => {
   const { buildId } = useParams();
   const [chunks, setChunks] = useState<Chunk[]>([]);
   const [chunkNo, setChunkNo] = useState<number>(0);
+  const [completed, setCompleted] = useState<boolean>(false);
   useEffect(() => {
     const getBuild = async () => {
       const buildDetails = await getBuildDetails(buildId as string);
@@ -42,19 +43,31 @@ const BuildLogPage = () => {
       setChunks(newChunks);
     });
   }, []);
+  useEffect(() => {
+    if (chunks.length === chunkNo) {
+      setCompleted(true);
+    }
+  }, [chunks]);
   return (
-    <div className="w-full h-full flex flex-col">
-      <div className="m-auto">
-        <Progress
-          color={"pink"}
-          animate
-          value={((chunks.length * 100) / (chunkNo as number)) as number}
-        ></Progress>
-        <p className="font-mono text-sm text-gray-400">{`${chunks.length}/${
-          chunkNo as number
-        } Chunks Uploaded...`}</p>
-      </div>
-    </div>
+    <>
+      {completed ? (
+        <p>completed</p>
+      ) : (
+        <div className="w-full h-full flex flex-col">
+          <div className="m-auto">
+            <Progress
+              className="w-full"
+              color={"pink"}
+              animate
+              value={((chunks.length * 100) / (chunkNo as number)) as number}
+            ></Progress>
+            <p className="font-mono text-sm text-gray-400">{`${chunks.length}/${
+              chunkNo as number
+            } Chunks Uploaded...`}</p>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
