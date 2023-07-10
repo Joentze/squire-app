@@ -1,6 +1,7 @@
 """main file"""
 
 from flask import Flask, request
+from flask_cors import CORS
 import os
 from typing import List
 import openai
@@ -45,6 +46,7 @@ def get_best_matches(query: str,
 
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 
 @app.route('/api', methods=['GET'])
@@ -62,4 +64,3 @@ if __name__ == "__main__":
     app.run(port=8000, debug=True)
     # response = get_best_matches("hello world", 1, "id_1", "id_2")
     # print(response)
-

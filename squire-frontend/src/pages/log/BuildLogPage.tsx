@@ -35,6 +35,14 @@ const BuildLogPage = () => {
   const [queryNo, setQueryNo] = useState<number>(5);
   const [getUrl, setGetUrl] = useState<string>("");
   const [result, setResult] = useState<string>();
+  const makeApiCall = async () => {
+    const response = await fetch(getUrl, {
+      headers: { "Access-Control-Allow-Origin": "*" },
+    });
+
+    const responseJson = JSON.stringify(await response.json());
+    setResult(responseJson);
+  };
   useEffect(() => {
     const getBuild = async () => {
       const buildDetails = await getBuildDetails(buildId as string);
@@ -67,7 +75,7 @@ const BuildLogPage = () => {
     }
   }, [chunks]);
   useEffect(() => {
-    const url = `https://test.com/api?build_id=${buildId}&project_id=${projectId}&query=${queryText}&number_of_matches=${queryNo}`;
+    const url = `http://127.0.0.1:8000/api?build_id=${buildId}&project_id=${projectId}&query=${queryText}&number_of_matches=${queryNo}`;
     setGetUrl(url);
   }, [queryText, queryNo]);
   return (
@@ -132,7 +140,7 @@ const BuildLogPage = () => {
                   }
                 >
                   <Input
-                    defaultValue={getUrl}
+                    value={getUrl}
                     rightSection={
                       <Tooltip label="Copy to Clipboard">
                         <ActionIcon
@@ -153,7 +161,9 @@ const BuildLogPage = () => {
                   }
                 >
                   <JsonInput
+                    formatOnBlur
                     minRows={20}
+                    value={result}
                     disabled={result === undefined}
                     rightSection={
                       <Tooltip label="Copy to Clipboard">
@@ -170,7 +180,11 @@ const BuildLogPage = () => {
                 </Input.Wrapper>
                 <div className="flex flex-row w-full py-2">
                   <div className="flex-grow"></div>
-                  <Button className="bg-pink-600" color={"pink"}>
+                  <Button
+                    className="bg-pink-600"
+                    color={"pink"}
+                    onClick={makeApiCall}
+                  >
                     Submit
                   </Button>
                 </div>
