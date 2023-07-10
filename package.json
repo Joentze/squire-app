@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@mantine/notifications": "^6.0.16",
     "react-icons": "^4.8.0"
   }
 }

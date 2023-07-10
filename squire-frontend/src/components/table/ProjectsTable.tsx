@@ -2,6 +2,7 @@ import { ActionIcon, Menu, Table } from "@mantine/core";
 import { IconDotsVertical, IconTrash } from "@tabler/icons-react";
 import { Timestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { deleteProject } from "../../projectHandler/projectHandler";
 import { ProjectDisplayType } from "../../types/projectTypes";
 
 interface IProjectsTable {
@@ -41,7 +42,11 @@ const ProjectsTable: React.FC<IProjectsTable> = ({ projects }) => {
                     </ActionIcon>
                   </Menu.Target>
                   <Menu.Dropdown>
-                    <Menu.Item icon={<IconTrash />} color="red">
+                    <Menu.Item
+                      icon={<IconTrash />}
+                      onClick={() => deleteProject(item.id)}
+                      color="red"
+                    >
                       Delete
                     </Menu.Item>
                   </Menu.Dropdown>

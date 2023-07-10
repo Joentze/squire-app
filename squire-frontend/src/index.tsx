@@ -18,6 +18,8 @@ import ProtectedRoute from "./route/PrivateRoute";
 import { FirebaseAuthWrapper } from "./firebase/auth/AuthContextWrapper";
 import ProjectPage from "./pages/project/ProjectPage";
 import BuildLogPage from "./pages/log/BuildLogPage";
+import { MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 
 const router = createBrowserRouter([
   {
@@ -60,7 +62,10 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <FirebaseAuthWrapper>
-      <RouterProvider router={router} />
+      <MantineProvider withNormalizeCSS withGlobalStyles>
+        <Notifications />
+        <RouterProvider router={router} />
+      </MantineProvider>
     </FirebaseAuthWrapper>
   </React.StrictMode>
 );

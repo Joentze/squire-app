@@ -1,5 +1,5 @@
 import { db } from "../firebase/base";
-import { addDoc, collection, doc, getDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc } from "firebase/firestore";
 import { ProjectType } from "../types/projectTypes";
 
 export const createProject = async (
@@ -30,5 +30,14 @@ export const getProjectDetails = async (
     return response.data() as ProjectType;
   } catch (e) {
     throw new Error("Unable to get project at this time!");
+  }
+};
+
+export const deleteProject = async (projectId: string): Promise<void> => {
+  try {
+    const docRef = doc(db, "projects", projectId);
+    await deleteDoc(docRef);
+  } catch (e) {
+    throw new Error("Unable to delete project at this time!");
   }
 };
