@@ -5,7 +5,7 @@ const NotificationConfiguration = {
   autoClose: 3000,
 };
 
-enum NotificationType {
+export enum NotificationType {
   ERROR = "red",
   SUCCESS = "green",
   INFORMATION = "pink",

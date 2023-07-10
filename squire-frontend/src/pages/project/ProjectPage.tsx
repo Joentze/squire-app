@@ -6,6 +6,7 @@ import {
   Text,
   Tooltip,
 } from "@mantine/core";
+import { showNotification } from "../../notifications/notificationHandler";
 import { IconPlus } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
@@ -20,6 +21,7 @@ import BuildTimeline, {
   TimelineBuildItem,
 } from "../../components/timeline/BuildTimeline";
 import { useAuth } from "../../firebase/auth/AuthContextWrapper";
+import { NotificationType } from "../../notifications/notificationHandler";
 import { getProjectDetails } from "../../projectHandler/projectHandler";
 import { BuildType } from "../../types/buildTypes";
 import { ProjectType } from "../../types/projectTypes";
@@ -60,11 +62,19 @@ const ProjectPage = () => {
     setLoading(true);
     try {
       const buildId = await createNewBuild(projectId as string, uid as string);
-      console.log(buildId);
+      showNotification(
+        NotificationType.SUCCESS,
+        "Successful Build",
+        "Build was successfully created."
+      );
       navigate(`/project/${projectId}/build/${buildId}`);
     } catch (e) {
       setLoading(false);
-      console.error(e);
+      showNotification(
+        NotificationType.ERROR,
+        "There was an error",
+        e as string
+      );
     }
   };
   return (
@@ -101,7 +111,7 @@ const ProjectPage = () => {
         <div className="mt-2 w-full h-full flex flex-col">
           {timelineItems.length > 0 ? (
             <>
-              <Text weight={"bolder"} color="pink" my={4} size="lg">
+              <Text weight={"bolder"} color="pink" my={10} mb={4} size="lg">
                 Build History
               </Text>
               <BuildTimeline builds={timelineItems}></BuildTimeline>

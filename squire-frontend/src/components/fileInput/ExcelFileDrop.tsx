@@ -1,5 +1,6 @@
 import * as XLSX from "xlsx";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { checkFile } from "../../fileHandler/fileHandler";
 // import { writeAllChunks } from "../../buildHandler/buildHandler";
 // import {
 //   ExcelSupabaseWrite,
@@ -13,8 +14,11 @@ interface IExcelFileDrop {
 const ExcelFileDrop: React.FC<IExcelFileDrop> = ({ setRows }) => {
   const onFileDrop = async (e: any) => {
     const [file] = e.target.files;
+
     const reader = new FileReader();
+    checkFile(file);
     reader.onload = async (evt: any) => {
+      // console.log(evt);
       const bstr = evt.target.result;
       const wb = XLSX.read(bstr, { type: "binary" });
       let rows: unknown[] = [];

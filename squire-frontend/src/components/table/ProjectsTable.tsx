@@ -2,6 +2,10 @@ import { ActionIcon, Menu, Table } from "@mantine/core";
 import { IconDotsVertical, IconTrash } from "@tabler/icons-react";
 import { Timestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import {
+  showNotification,
+  NotificationType,
+} from "../../notifications/notificationHandler";
 import { deleteProject } from "../../projectHandler/projectHandler";
 import { ProjectDisplayType } from "../../types/projectTypes";
 
@@ -11,6 +15,22 @@ interface IProjectsTable {
 
 const ProjectsTable: React.FC<IProjectsTable> = ({ projects }) => {
   const navigate = useNavigate();
+  const deleteProjectRow = async (projectId: string) => {
+    await deleteProject(projectId);
+    showNotification(
+      NotificationType.SUCCESS,
+      "Successfully Deleted",
+      "Project selected was successfully deleted!"
+    );
+    try {
+    } catch (e) {
+      showNotification(
+        NotificationType.ERROR,
+        "There was an error",
+        e as string
+      );
+    }
+  };
   const formatDateTime = (dateTime: Timestamp): string => {
     const datetime = dateTime.toDate();
     return `${datetime.getDate()}/${
@@ -44,7 +64,7 @@ const ProjectsTable: React.FC<IProjectsTable> = ({ projects }) => {
                   <Menu.Dropdown>
                     <Menu.Item
                       icon={<IconTrash />}
-                      onClick={() => deleteProject(item.id)}
+                      onClick={async () => deleteProjectRow(item.id)}
                       color="red"
                     >
                       Delete
