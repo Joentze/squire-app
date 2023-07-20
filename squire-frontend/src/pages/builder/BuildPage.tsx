@@ -11,6 +11,7 @@ import { IoArrowDown } from "react-icons/io5";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   addBuildComment,
+  getBuildDetails,
   setChunkNo,
   setStatus,
   writeAllChunks,
@@ -47,6 +48,9 @@ const BuildPage = () => {
   const [comments, setComments] = useState<string>("");
   const [project, setProject] = useState<ProjectType>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [isCompleted, setIsCompleted] = useState<BuildStatus>(
+    BuildStatus.INCOMPLETE
+  );
   const navigate = useNavigate();
   const uploadChunk = async () => {
     try {
@@ -75,6 +79,15 @@ const BuildPage = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (buildId) {
+      const getBuild = async (): Promise<void> => {
+        const buildDetails = await getBuildDetails(buildId);
+        setIsCompleted(buildDetails.status);
+      };
+      getBuild();
+    }
+  }, []);
   useEffect(() => {
     // console.log(rows);
     if (rows.length > 0) {
@@ -114,53 +127,59 @@ const BuildPage = () => {
       </div>
       <Text color="dimmed">{project?.description}</Text>
       <Divider />
-      <>
-        {rows.length === 0 ? (
-          <div className="h-full w-full flex flex-col gap-2">
-            <ExcelFileDrop setRows={setRows} />
-            <div className="bg-gray-100 w-full h-full rounded-md"></div>
-          </div>
-        ) : (
-          <div className="flex flex-col gap-2">
-            <Input.Wrapper
-              label="Build Message"
-              required
-              size={"md"}
-              description="Write comment about build"
-            >
-              <Input
-                placeholder="Example: 'Added new products'"
-                icon={<IconPencil />}
-                onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                  setComments(event.target.value)
-                }
-              />
-            </Input.Wrapper>
-            <MultiSelect
-              icon={<IconTag />}
-              onChange={setSelectedLabels}
-              limit={5}
-              withAsterisk
-              className="border-1 border-pink-100 "
-              searchable
-              data={colLabels}
-              label="Labels"
-              placeholder="Labels"
-              size={"md"}
-              description="Pick at least one column label to base your recommendations on"
-            />
-            <Text weight="">Items</Text>
-            <ResultTable
-              selectedLabels={selectedLabels}
-              values={rows.slice(0, 20)}
-            />
-            <div className="m-auto flex flex-col">
-              <p className="m-auto text-gray-400">First 20 rows</p>
-              <IoArrowDown className="m-auto text-gray-400" />
+      {isCompleted === BuildStatus.COMPLETED ? (
+        <div className="h-full w-full flex">
+          <div className="m-auto">Build is Already Completed</div>
+        </div>
+      ) : (
+        <>
+          {rows.length === 0 ? (
+            <div className="h-full w-full flex flex-col gap-2">
+              <ExcelFileDrop setRows={setRows} />
+              <div className="bg-gray-100 w-full h-full rounded-md"></div>
             </div>
-          </div>
-        )}
-      </>
+          ) : (
+            <div className="flex flex-col gap-2">
+              <Input.Wrapper
+                label="Build Message"
+                required
+                size={"md"}
+                description="Write comment about build"
+              >
+                <Input
+                  placeholder="Example: 'Added new products'"
+                  icon={<IconPencil />}
+                  onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                    setComments(event.target.value)
+                  }
+                />
+              </Input.Wrapper>
+              <MultiSelect
+                icon={<IconTag />}
+                onChange={setSelectedLabels}
+                limit={5}
+                withAsterisk
+                className="border-1 border-pink-100 "
+                searchable
+                data={colLabels}
+                label="Labels"
+                placeholder="Labels"
+                size={"md"}
+                description="Pick at least one column label to base your recommendations on"
+              />
+              <Text weight="">Items</Text>
+              <ResultTable
+                selectedLabels={selectedLabels}
+                values={rows.slice(0, 20)}
+              />
+              <div className="m-auto flex flex-col">
+                <p className="m-auto text-gray-400">First 20 rows</p>
+                <IoArrowDown className="m-auto text-gray-400" />
+              </div>
+            </div>
+          )}
+        </>
+      )}{" "}
     </div>
   );
 };
