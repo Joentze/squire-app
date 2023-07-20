@@ -26,6 +26,7 @@ import { db } from "../../firebase/base";
 import { Chunk } from "../../types/documentTypes";
 
 const BuildLogPage = () => {
+  const SQUIRE_API_URL = process.env.REACT_APP_SQUIRE_API_URL;
   const { buildId } = useParams();
   const [chunks, setChunks] = useState<Chunk[]>([]);
   const [projectId, setProjectId] = useState<string>("");
@@ -75,7 +76,7 @@ const BuildLogPage = () => {
     }
   }, [chunks]);
   useEffect(() => {
-    const url = `http://127.0.0.1:8000/api?build_id=${buildId}&project_id=${projectId}&query=${queryText}&number_of_matches=${queryNo}`;
+    const url = `${SQUIRE_API_URL}/api?build_id=${buildId}&project_id=${projectId}&query=${queryText}&number_of_matches=${queryNo}`;
     setGetUrl(url);
   }, [queryText, queryNo]);
   return (
