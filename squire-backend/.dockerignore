@@ -1,0 +1,5 @@
+__pycache__/
+
+supabase_sql/
+
+access_keys.py
