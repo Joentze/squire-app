@@ -13,7 +13,7 @@ import {
   Divider,
   ActionIcon,
 } from "@mantine/core";
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from "react-router-dom";
 import { IoLogoGoogle } from "react-icons/io5";
 import {
   IconArrowRight,
@@ -23,9 +23,12 @@ import {
 
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
+import {
+  NotificationType,
+  showNotification,
+} from "../../notifications/notificationHandler";
 
 const SignUpPage = () => {
-
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,30 +37,30 @@ const SignUpPage = () => {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
-      alert("Passwords do not match");
-      return;
-    }
     const auth = getAuth();
     await createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
+      .then((userCredential) => {
         // Signed in
-        alert ("Sign up successful!")
-        const user = userCredential.user;
-        console.log(user);
-        navigate("/login")
-    })
-    .catch((error) => {
-        alert ("error.message");
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+        if (password !== confirmPassword)
+          throw new Error("Passwords don't match!");
+        showNotification(
+          NotificationType.SUCCESS,
+          "Successful Sign Up",
+          "Welcome to Squire!"
+        );
+        navigate("/login");
+      })
+      .catch((error) => {
+        showNotification(
+          NotificationType.ERROR,
+          "Sign up error",
+          error.message
+        );
         // ..
-    });
+      });
   };
 
   return (
-    
     <Container size={420} my={40} color="pink">
       <Title
         align="center"
@@ -91,7 +94,7 @@ const SignUpPage = () => {
             required
             mt="md"
             value={password}
-            onChange={(e) => setPassword(e.target.value)} 
+            onChange={(e) => setPassword(e.target.value)}
           />
           <PasswordInput
             label="Confirm Password"
@@ -110,14 +113,13 @@ const SignUpPage = () => {
             Create Account
           </button>
           <Text color="dimmed" size="sm" align="center" mt={5}>
-          Already have an account?{' '}
-          <NavLink to="/login" >
-            <Anchor size="sm" component="button" color={"pink"}>
-              Sign in
-            </Anchor>
+            Already have an account?{" "}
+            <NavLink to="/login">
+              <Anchor size="sm" component="button" color={"pink"}>
+                Sign in
+              </Anchor>
             </NavLink>
-            </Text>
-          
+          </Text>
         </form>
       </Paper>
     </Container>
