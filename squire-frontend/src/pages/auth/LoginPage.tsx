@@ -23,6 +23,10 @@ import { signInWithGoogle } from "../../firebase/auth/signInWithGoogle";
 import { useAuth } from "../../firebase/auth/AuthContextWrapper";
 import { useState, useEffect } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  NotificationType,
+  showNotification,
+} from "../../notifications/notificationHandler";
 
 const LoginPage = () => {
   const auth = useAuth();
@@ -44,13 +48,13 @@ const LoginPage = () => {
         // Signed in
         const user = userCredential.user;
         navigate("/dashboard");
-        console.log(user);
       })
       .catch((error) => {
-        alert("error.message");
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+        showNotification(
+          NotificationType.ERROR,
+          "Sign in Error",
+          error.message
+        );
       });
   };
   return (
