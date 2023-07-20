@@ -21,17 +21,38 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoLogoGoogle } from "react-icons/io5";
 import { signInWithGoogle } from "../../firebase/auth/signInWithGoogle";
 import { useAuth } from "../../firebase/auth/AuthContextWrapper";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const LoginPage = () => {
   const auth = useAuth();
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   useEffect(() => {
     console.log(auth);
     if (auth) {
       navigate("/dashboard");
     }
   }, [auth]);
+
+  const onLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        navigate("/dashboard");
+        console.log(user);
+      })
+      .catch((error) => {
+        alert("error.message");
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
+  };
   return (
     <Container size={420} my={40} color="pink">
       <Title
@@ -52,7 +73,7 @@ const LoginPage = () => {
       </Title>
       <Text color="dimmed" size="sm" align="center" mt={5}>
         Do not have an account yet?{" "}
-        <Link to={"register"}>
+        <Link to={"/register"}>
           <Anchor size="sm" component="button" color={"pink"}>
             Create account
           </Anchor>
@@ -60,12 +81,20 @@ const LoginPage = () => {
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <TextInput label="Email" placeholder="you@mantine.dev" required />
+        <TextInput
+          label="Email"
+          placeholder="you@mantine.dev"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.currentTarget.value)}
+        />
         <PasswordInput
           label="Password"
-          placeholder="Your password"
+          placeholder="Password"
           required
           mt="md"
+          value={password}
+          onChange={(e) => setPassword(e.currentTarget.value)}
         />
         <Group position="apart" mt="lg">
           <div></div>
@@ -74,7 +103,10 @@ const LoginPage = () => {
           </Anchor>
         </Group>
 
-        <button className="w-full h-10 rounded-md bg-pink-600 text-white my-4 font-bold active:bg-pink-700 ">
+        <button
+          className="w-full h-10 rounded-md bg-pink-600 text-white my-4 font-bold active:bg-pink-700 "
+          onClick={onLogin}
+        >
           Sign in
         </button>
         <br></br>
