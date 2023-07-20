@@ -24,6 +24,63 @@ admin.initializeApp(functions.config().firebase);
 const OPEN_AI_KEY = defineString("OPEN_AI_KEY");
 const SUPABASE_URL = defineString("SUPABASE_URL");
 const SUPABASE_PWD = defineString("SUPABASE_PWD");
+const SQUIRE_API_URL = defineString("SQUIRE_API_URL");
+
+exports.onChatCreated = functions.firestore
+  .document("/chats/{chat}")
+  .onCreate(async (snap, context) => {
+    const { projectId, buildId, query } = snap.data();
+    return await new Promise(async () => {
+      const response = await fetch(
+        `${SQUIRE_API_URL.value()}/api?build_id=${buildId}&project_id=${projectId}&query=${query}&number_of_matches=3`,
+        { headers: { "Access-Control-Allow-Origin": "*" } }
+      );
+      const contexts = await response.json();
+      let allContext: string[] = [];
+      for (let context of contexts) {
+        const thisContext = Object.values(context["data"] as object).join(" ");
+        allContext.push(thisContext);
+      }
+      const contextPayload = allContext.join("\n\n");
+      const chatResponse = await fetch(
+        "https://api.openai.com/v1/chat/completions",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${OPEN_AI_KEY.value()}`,
+          },
+          method: "POST",
+          body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [
+              { role: "system", content: "You are a helpful assistant." },
+              {
+                role: "user",
+                content: `You are a helpful assistant and you respond to the query based on the context below. If you do not know the answer, say you don't know
+              
+              context:
+              ${contextPayload}
+
+              query:
+              ${query}
+
+              response:`,
+              },
+            ],
+          }),
+        }
+      );
+      const gptResponse = await chatResponse.json();
+      console.log(gptResponse);
+      const completion = gptResponse["choices"][0]["message"]["content"];
+      const { id } = snap.ref;
+      await admin
+        .firestore()
+        .collection("chats")
+        .doc(id)
+        .update({ response: completion });
+    });
+  });
 
 exports.onChunkCreated = functions.firestore
   .document("/chunks/{chunk}")

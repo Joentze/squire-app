@@ -9,9 +9,7 @@
         "firebase-debug.log",
         "firebase-debug.*.log"
       ],
-      "predeploy": [
-        "npm --prefix \"$RESOURCE_DIR\" run build"
-      ]
+      "predeploy": ["npm --prefix \"$RESOURCE_DIR\" run build"]
     }
   ],
   "emulators": {
@@ -19,7 +17,7 @@
       "port": 5001
     },
     "firestore": {
-      "port": 8080
+      "port": 8001
     },
     "ui": {
       "enabled": true
