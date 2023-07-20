@@ -60,7 +60,10 @@ def get_similar_documents():
     return response.data
 
 
+PORT = int(os.environ["PORT"])
+
 if __name__ == "__main__":
-    app.run(port=8000, debug=True)
+
+    app.run(debug=True, host="0.0.0.0", port=PORT)
     # response = get_best_matches("hello world", 1, "id_1", "id_2")
     # print(response)

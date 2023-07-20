@@ -7,6 +7,9 @@ name = "pypi"
 openai = "*"
 supabase = "*"
 flask = "*"
+gunicorn = "*"
+flask-cors = "*"
+numpy = "*"
 
 [dev-packages]
 
