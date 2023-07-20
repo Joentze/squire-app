@@ -22,8 +22,14 @@ import { useEffect, useState } from "react";
 import { IoCheckbox, IoCheckboxOutline, IoClipboard } from "react-icons/io5";
 import { useParams } from "react-router-dom";
 import { getBuildDetails } from "../../buildHandler/buildHandler";
+import CircleProgress from "../../components/progress/CircleProgress";
 import { db } from "../../firebase/base";
+import {
+  NotificationType,
+  showNotification,
+} from "../../notifications/notificationHandler";
 import { Chunk } from "../../types/documentTypes";
+import { validateApiArgs } from "../../validators/recommendationApiValidator";
 
 const BuildLogPage = () => {
   const SQUIRE_API_URL = process.env.REACT_APP_SQUIRE_API_URL;
@@ -36,13 +42,27 @@ const BuildLogPage = () => {
   const [queryNo, setQueryNo] = useState<number>(5);
   const [getUrl, setGetUrl] = useState<string>("");
   const [result, setResult] = useState<string>();
+  const [loading, setLoading] = useState<boolean>(false);
   const makeApiCall = async () => {
-    const response = await fetch(getUrl, {
-      headers: { "Access-Control-Allow-Origin": "*" },
-    });
+    try {
+      setResult(undefined);
+      setLoading(true);
+      validateApiArgs(queryText, queryNo, projectId, buildId as string);
+      const response = await fetch(getUrl, {
+        headers: { "Access-Control-Allow-Origin": "*" },
+      });
 
-    const responseJson = JSON.stringify(await response.json());
-    setResult(responseJson);
+      const responseJson = JSON.stringify(await response.json());
+      setResult(responseJson);
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+      showNotification(
+        NotificationType.ERROR,
+        "There was an Argument Error",
+        (e as Error).message as string
+      );
+    }
   };
   useEffect(() => {
     const getBuild = async () => {
@@ -181,13 +201,19 @@ const BuildLogPage = () => {
                 </Input.Wrapper>
                 <div className="flex flex-row w-full py-2">
                   <div className="flex-grow"></div>
-                  <Button
-                    className="bg-pink-600"
-                    color={"pink"}
-                    onClick={makeApiCall}
-                  >
-                    Submit
-                  </Button>
+                  <>
+                    {loading ? (
+                      <CircleProgress className="w-4 h-4 text-pink-600 " />
+                    ) : (
+                      <Button
+                        className="bg-pink-600"
+                        color={"pink"}
+                        onClick={makeApiCall}
+                      >
+                        Submit
+                      </Button>
+                    )}
+                  </>
                 </div>
               </div>
             </div>
