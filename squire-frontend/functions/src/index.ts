@@ -26,10 +26,22 @@ const SUPABASE_URL = defineString("SUPABASE_URL");
 const SUPABASE_PWD = defineString("SUPABASE_PWD");
 const SQUIRE_API_URL = defineString("SQUIRE_API_URL");
 
+enum ChatStatus {
+  COMPLETED = "COMPLETED",
+  ERROR = "ERROR",
+  PROCESSING = "PROCESSING",
+}
+
 exports.onChatCreated = functions.firestore
   .document("/chats/{chat}")
   .onCreate(async (snap, context) => {
     const { projectId, buildId, query } = snap.data();
+    const { id } = snap.ref;
+    await admin
+      .firestore()
+      .collection("chats")
+      .doc(id)
+      .update({ status: ChatStatus.PROCESSING });
     return await new Promise(async () => {
       const response = await fetch(
         `${SQUIRE_API_URL.value()}/api?build_id=${buildId}&project_id=${projectId}&query=${query}&number_of_matches=3`,
@@ -73,12 +85,18 @@ exports.onChatCreated = functions.firestore
       const gptResponse = await chatResponse.json();
       console.log(gptResponse);
       const completion = gptResponse["choices"][0]["message"]["content"];
-      const { id } = snap.ref;
+
       await admin
         .firestore()
         .collection("chats")
         .doc(id)
-        .update({ response: completion });
+        .update({ response: completion, status: ChatStatus.COMPLETED });
+    }).catch((e) => {
+      admin
+        .firestore()
+        .collection("chats")
+        .doc(id)
+        .update({ status: ChatStatus.ERROR });
     });
   });
 
