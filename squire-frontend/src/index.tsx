@@ -20,7 +20,7 @@ import ProjectPage from "./pages/project/ProjectPage";
 import BuildLogPage from "./pages/log/BuildLogPage";
 import { MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
-
+import PlaygroundPage from "./pages/playground/PlaygroundPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -39,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "/build/:buildId/log",
         element: <BuildLogPage />,
+      },
+      {
+        path: "/playground",
+        element: <PlaygroundPage />,
       },
       // { path: "/build/:engineid/:runid", element: <BuildProcessPage /> },
     ],

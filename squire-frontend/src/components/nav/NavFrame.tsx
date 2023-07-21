@@ -7,13 +7,17 @@ import {
   IconLayoutDashboard,
   IconListCheck,
 } from "@tabler/icons-react";
-import { IoLogOut } from "react-icons/io5";
+import { IoLogOut, IoRocketSharp } from "react-icons/io5";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { auth } from "../../firebase/base";
 
 const navContent = [
   { path: "/dashboard", title: "Dashboard", icon: <IconLayoutDashboard /> },
-  { path: "/logs", title: "Build Logs", icon: <IconListCheck /> },
+  {
+    path: "/playground",
+    title: "Playground ✨",
+    icon: <IoRocketSharp className="w-6 h-6" />,
+  },
 ];
 
 const NavFrame = () => {

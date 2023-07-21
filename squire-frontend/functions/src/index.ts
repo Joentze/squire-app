@@ -50,10 +50,17 @@ exports.onChatCreated = functions.firestore
       const contexts = await response.json();
       let allContext: string[] = [];
       for (let context of contexts) {
-        const thisContext = Object.values(context["data"] as object).join(" ");
-        allContext.push(thisContext);
+        let indivCol = context["data"];
+        let currCol: string[] = [];
+        for (const [dataType, colData] of Object.entries(indivCol)) {
+          currCol.push(`${dataType}: ${colData}`);
+        }
+        let infoChunk: string = currCol.join("\n");
+        // const thisContext = Object.values(context["data"] as object).join(" ");
+        allContext.push(infoChunk);
       }
       const contextPayload = allContext.join("\n\n");
+      console.log(contextPayload);
       const chatResponse = await fetch(
         "https://api.openai.com/v1/chat/completions",
         {
