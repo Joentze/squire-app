@@ -1,8 +1,86 @@
 import { Divider, Input, Select, Text, ActionIcon } from "@mantine/core";
 import { Action } from "@remix-run/router";
-import { IoSend } from "react-icons/io5";
+import { projectID } from "firebase-functions/params";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { IoChatbox, IoSend } from "react-icons/io5";
+import { getBuildAllDetails } from "../../buildHandler/buildHandler";
+import { writeChat } from "../../chatHandler/chatHandler";
+import { validateMessage } from "../../chatHandler/chatValidator";
+import { useAuth } from "../../firebase/auth/AuthContextWrapper";
+import { db } from "../../firebase/base";
+import {
+  NotificationType,
+  showNotification,
+} from "../../notifications/notificationHandler";
+import { BuildType } from "../../types/buildTypes";
+import { ProjectDisplayType } from "../../types/projectTypes";
+
+interface ISelectValues {
+  value: string;
+  label: string;
+}
 
 const PlaygroundPage = () => {
+  const auth = useAuth();
+  const [projects, setProjects] = useState<ISelectValues[]>([]);
+  const [builds, setBuilds] = useState<ISelectValues[]>([]);
+  const [currProject, setCurrProject] = useState<string | null>();
+  const [currBuild, setCurrBuild] = useState<string | null>();
+  const [message, setMessage] = useState<string>();
+  useEffect(() => {
+    const queryForProjects = query(
+      collection(db, "projects"),
+      where("createdBy", "==", auth)
+    );
+
+    onSnapshot(queryForProjects, (querySnapshot) => {
+      let currProjects: ISelectValues[] = [];
+      querySnapshot.forEach((doc) => {
+        // console.log(doc.data());
+        const { name } = doc.data();
+        currProjects.push({
+          value: doc.id as string,
+          label: name as string,
+        } as ISelectValues);
+      });
+      setProjects(currProjects);
+    });
+  }, []);
+  useEffect(() => {
+    if (currProject) {
+      const getBuilds = async (): Promise<void> => {
+        const buildDetails = await getBuildAllDetails(currProject);
+        // setBuilds(buildDetails);
+        let buildSelectValues: ISelectValues[] = [];
+        for (let thisBuild of buildDetails) {
+          const { id, comments } = thisBuild;
+          buildSelectValues.push({ value: id, label: comments as string });
+        }
+        setBuilds(buildSelectValues);
+      };
+
+      getBuilds();
+    }
+  }, [currProject]);
+  const sendMessage = async () => {
+    try {
+      validateMessage(currProject, currBuild, message);
+      setMessage(undefined);
+      await writeChat(
+        auth as string,
+        currProject as string,
+        currBuild as string,
+        message as string
+      );
+    } catch (e) {
+      showNotification(
+        NotificationType.ERROR,
+        "AI Error",
+        (e as Error).message
+      );
+    }
+  };
   return (
     <div className="w-full h-full flex flex-col">
       <Text weight={"bold"} color="pink" size="xl" mb={8}>
@@ -15,15 +93,38 @@ const PlaygroundPage = () => {
       <div className="w-full h-full  flex flex-col">
         <div className="flex-grow w-full"></div>
         <Divider mb={14} />
-        <div className="w-full flex flex-row gap-4">
-          <Select data={["hello", "world"]} size="lg" />
-          <Select data={["hello", "world"]} size="lg" />
+        <div className="w-full flex flex-row gap-4 ">
+          <Select
+            data={projects}
+            size="lg"
+            className=""
+            placeholder="Projects"
+            onChange={setCurrProject}
+          />
+          <Select
+            placeholder="Builds"
+            data={builds}
+            disabled={builds.length === 0}
+            size="lg"
+            onChange={setCurrBuild}
+          />
           <Input
-            className="flex-grow "
+            className="flex-grow"
             size={"lg"}
             placeholder="Ask AI..."
+            icon={<IoChatbox />}
+            disabled={!(currProject && currBuild)}
+            // defaultValue={message}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setMessage(e.target.value)
+            }
             rightSection={
-              <ActionIcon>
+              <ActionIcon
+                color={"pink"}
+                variant="subtle"
+                disabled={!(currProject && currBuild && message)}
+                onClick={sendMessage}
+              >
                 <IoSend />
               </ActionIcon>
             }
