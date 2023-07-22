@@ -15,6 +15,7 @@ import {
 } from "../../notifications/notificationHandler";
 import { BuildType } from "../../types/buildTypes";
 import { ProjectDisplayType } from "../../types/projectTypes";
+import ChatHistory from "./ChatHistory";
 
 interface ISelectValues {
   value: string;
@@ -109,7 +110,9 @@ const PlaygroundPage = () => {
       </Text>
       <Divider />
       <div className="w-full h-full  flex flex-col">
-        <div className="flex-grow w-full"></div>
+        <div className="flex-grow w-full overflow-scroll h-96">
+          <ChatHistory />
+        </div>
         <Divider mb={14} />
         <div className="w-full flex flex-row gap-4 ">
           <Select
