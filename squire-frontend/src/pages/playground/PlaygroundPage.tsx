@@ -30,19 +30,22 @@ const PlaygroundPage = () => {
   const [currBuild, setCurrBuild] = useState<string | null>();
   const [message, setMessage] = useState<string>();
   const inputRef = useRef<HTMLInputElement>(null);
-  const returnPressCallback = useCallback(async (event: KeyboardEvent) => {
-    const { key } = event;
-    if (key === "Enter" && message !== undefined) {
-      await sendMessage();
-    }
-  }, []);
+  const returnPressCallback = useCallback(
+    async (event: KeyboardEvent) => {
+      const { key } = event;
+      if (key === "Enter") {
+        await sendMessage();
+      }
+    },
+    [currProject, currBuild, message]
+  );
 
   useEffect(() => {
     window.addEventListener("keydown", returnPressCallback);
     return () => {
       window.removeEventListener("keydown", returnPressCallback);
     };
-  }, []);
+  }, [returnPressCallback]);
 
   useEffect(() => {
     const queryForProjects = query(
@@ -65,7 +68,8 @@ const PlaygroundPage = () => {
   }, []);
   useEffect(() => {
     if (currProject) {
-      setCurrBuild(null);
+      console.log(currProject);
+      // setCurrBuild(null);
       const getBuilds = async (): Promise<void> => {
         const buildDetails = await getBuildAllDetails(currProject);
         // setBuilds(buildDetails);
@@ -82,6 +86,7 @@ const PlaygroundPage = () => {
   }, [currProject]);
   const sendMessage = async () => {
     try {
+      console.log(currProject, currBuild, message);
       validateMessage(currProject, currBuild, message);
 
       await writeChat(
@@ -116,6 +121,7 @@ const PlaygroundPage = () => {
         <Divider mb={14} />
         <div className="w-full flex flex-row gap-4 ">
           <Select
+            value={currProject}
             data={projects}
             size="lg"
             className=""
