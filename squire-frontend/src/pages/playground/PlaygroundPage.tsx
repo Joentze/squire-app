@@ -2,7 +2,7 @@ import { Divider, Input, Select, Text, ActionIcon } from "@mantine/core";
 import { Action } from "@remix-run/router";
 import { projectID } from "firebase-functions/params";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { IoChatbox, IoSend } from "react-icons/io5";
 import { getBuildAllDetails } from "../../buildHandler/buildHandler";
 import { writeChat } from "../../chatHandler/chatHandler";
@@ -28,6 +28,21 @@ const PlaygroundPage = () => {
   const [currProject, setCurrProject] = useState<string | null>();
   const [currBuild, setCurrBuild] = useState<string | null>();
   const [message, setMessage] = useState<string>();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const returnPressCallback = useCallback(async (event: KeyboardEvent) => {
+    const { key } = event;
+    if (key === "Enter" && message !== undefined) {
+      await sendMessage();
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("keydown", returnPressCallback);
+    return () => {
+      window.removeEventListener("keydown", returnPressCallback);
+    };
+  }, []);
+
   useEffect(() => {
     const queryForProjects = query(
       collection(db, "projects"),
@@ -66,13 +81,15 @@ const PlaygroundPage = () => {
   const sendMessage = async () => {
     try {
       validateMessage(currProject, currBuild, message);
-      setMessage(undefined);
+
       await writeChat(
         auth as string,
         currProject as string,
         currBuild as string,
         message as string
       );
+      (inputRef.current as HTMLInputElement).value = "";
+      setMessage(undefined);
     } catch (e) {
       showNotification(
         NotificationType.ERROR,
@@ -109,6 +126,7 @@ const PlaygroundPage = () => {
             onChange={setCurrBuild}
           />
           <Input
+            ref={inputRef}
             className="flex-grow"
             size={"lg"}
             placeholder="Ask AI..."
