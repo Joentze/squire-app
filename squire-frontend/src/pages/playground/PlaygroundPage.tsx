@@ -64,6 +64,7 @@ const PlaygroundPage = () => {
   }, []);
   useEffect(() => {
     if (currProject) {
+      setCurrBuild(null);
       const getBuilds = async (): Promise<void> => {
         const buildDetails = await getBuildAllDetails(currProject);
         // setBuilds(buildDetails);
@@ -119,6 +120,7 @@ const PlaygroundPage = () => {
             onChange={setCurrProject}
           />
           <Select
+            value={currBuild}
             placeholder="Builds"
             data={builds}
             disabled={builds.length === 0}

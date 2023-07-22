@@ -14,6 +14,7 @@ export interface ChatType {
   query: string;
   response?: string;
   status: ChatStatus;
+  createdOn: Date;
 }
 
 export const writeChat = async (
@@ -30,7 +31,8 @@ export const writeChat = async (
       buildId,
       query,
       status: ChatStatus.PROCESSING,
-    });
+      createdOn: new Date(),
+    } as ChatType);
   } catch (e) {
     throw new Error(
       "There was an error with sending chat message at this moment!"
