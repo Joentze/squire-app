@@ -38,6 +38,7 @@ export const deleteProject = async (projectId: string): Promise<void> => {
     const docRef = doc(db, "projects", projectId);
     await deleteDoc(docRef);
   } catch (e) {
+    console.error(e);
     throw new Error("Unable to delete project at this time!");
   }
 };

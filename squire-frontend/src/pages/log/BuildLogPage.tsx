@@ -37,7 +37,7 @@ const BuildLogPage = () => {
   const [chunks, setChunks] = useState<Chunk[]>([]);
   const [projectId, setProjectId] = useState<string>("");
   const [chunkNo, setChunkNo] = useState<number>(0);
-  const [completed, setCompleted] = useState<boolean>(false);
+  // const [completed, setCompleted] = useState<boolean>(false);
   const [queryText, setQueryText] = useState<string>("");
   const [queryNo, setQueryNo] = useState<number>(5);
   const [getUrl, setGetUrl] = useState<string>("");
@@ -83,25 +83,21 @@ const BuildLogPage = () => {
     let newChunks: Chunk[] = [];
     onSnapshot(queryForChunks, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        console.log(doc.data());
+        console.log("data: ", doc.data());
         newChunks.push((doc as DocumentData).data());
       });
 
       setChunks(newChunks);
     });
   }, []);
-  useEffect(() => {
-    if (chunks.length === chunkNo) {
-      setCompleted(true);
-    }
-  }, [chunks]);
+
   useEffect(() => {
     const url = `${SQUIRE_API_URL}/api?build_id=${buildId}&project_id=${projectId}&query=${queryText}&number_of_matches=${queryNo}`;
     setGetUrl(url);
   }, [queryText, queryNo]);
   return (
     <>
-      {completed ? (
+      {chunks.length >= chunkNo ? (
         <div className="flex flex-col w-full h-fit">
           <div className="m-auto w-full flex flex-col h-fit">
             <IoCheckbox className="w-20 h-20 text-green-400 m-auto" />

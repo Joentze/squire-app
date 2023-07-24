@@ -88,14 +88,14 @@ const PlaygroundPage = () => {
     try {
       console.log(currProject, currBuild, message);
       validateMessage(currProject, currBuild, message);
-
+      (inputRef.current as HTMLInputElement).value = "";
       await writeChat(
         auth as string,
         currProject as string,
         currBuild as string,
         message as string
       );
-      (inputRef.current as HTMLInputElement).value = "";
+
       setMessage(undefined);
     } catch (e) {
       showNotification(
