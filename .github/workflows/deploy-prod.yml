@@ -13,10 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      # Add any build steps here. For example:
+        # Add any build steps here. For example:
+
       - run: cd squire-frontend && npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
+          entryPoint: ./squire-frontend
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
           projectId: squire-backend-5c68c
