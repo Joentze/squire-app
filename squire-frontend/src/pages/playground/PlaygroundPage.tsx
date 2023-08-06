@@ -1,6 +1,4 @@
 import { Divider, Input, Select, Text, ActionIcon } from "@mantine/core";
-import { Action } from "@remix-run/router";
-import { projectID } from "firebase-functions/params";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { IoChatbox, IoSend } from "react-icons/io5";
@@ -13,8 +11,6 @@ import {
   NotificationType,
   showNotification,
 } from "../../notifications/notificationHandler";
-import { BuildType } from "../../types/buildTypes";
-import { ProjectDisplayType } from "../../types/projectTypes";
 import ChatHistory from "./ChatHistory";
 
 interface ISelectValues {

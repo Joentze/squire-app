@@ -2,24 +2,13 @@ import { useState } from "react";
 import {
   TextInput,
   PasswordInput,
-  Checkbox,
   Anchor,
   Paper,
   Title,
   Text,
   Container,
-  Group,
-  Button,
-  Divider,
-  ActionIcon,
 } from "@mantine/core";
 import { NavLink, useNavigate } from "react-router-dom";
-import { IoLogoGoogle } from "react-icons/io5";
-import {
-  IconArrowRight,
-  IconArrowRightTail,
-  IconBrandGoogle,
-} from "@tabler/icons-react";
 
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 

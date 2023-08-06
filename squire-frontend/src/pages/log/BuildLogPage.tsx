@@ -19,7 +19,7 @@ import {
   where,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { IoCheckbox, IoCheckboxOutline, IoClipboard } from "react-icons/io5";
+import { IoCheckbox, IoClipboard } from "react-icons/io5";
 import { useParams } from "react-router-dom";
 import { getBuildDetails } from "../../buildHandler/buildHandler";
 import CircleProgress from "../../components/progress/CircleProgress";

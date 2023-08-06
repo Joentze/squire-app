@@ -1,11 +1,4 @@
-import {
-  ActionIcon,
-  Button,
-  Chip,
-  Divider,
-  Text,
-  Tooltip,
-} from "@mantine/core";
+import { Button, Divider, Text } from "@mantine/core";
 import { showNotification } from "../../notifications/notificationHandler";
 import { IconPlus } from "@tabler/icons-react";
 import { useEffect, useState } from "react";

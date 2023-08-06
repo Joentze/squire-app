@@ -25,12 +25,12 @@ import CircleProgress from "../../components/progress/CircleProgress";
 import ResultTable from "../../components/table/ResultTable";
 import { getProjectDetails } from "../../projectHandler/projectHandler";
 import { BuildStatus } from "../../types/buildTypes";
-import { ProjectDisplayType, ProjectType } from "../../types/projectTypes";
+import { ProjectType } from "../../types/projectTypes";
 
-interface MantineMultiType {
-  label: string;
-  value: string;
-}
+// interface MantineMultiType {
+//   label: string;
+//   value: string;
+// }
 
 // const toMantineMultiSelectDataFormat = (
 //   colKeys: string[]
