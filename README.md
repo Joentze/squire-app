@@ -1,5 +1,3 @@
-# README
-
 # Squire App 🔮
 
 Squire is a no-code web application used to create recommendation APIs 👨🏽‍💻 By attaching and labelling .xlsx files, users can create recommendation APIs for their frontend in minutes 🚀
@@ -38,7 +36,7 @@ Watch how squire works:
 
 Recommendations are created when two documents are similar. For example, “i really like pasta” and “top-10 pasta dishes” would be similar documents since they both mention the word “pasta”. In order for a computer to query that quickly we will have to use a vector embedding function. Simply put, the vector embedding function converts a set of texts into a vector space.
 
-![Words being placed onto a 3D vector to be compared](README%209bde31f6c8aa4f7d974785ab2ee3493c/Untitled.png)
+![Words being placed onto a 3D vector to be compared](images/Untitled.png)
 
 Words being placed onto a 3D vector to be compared
 
@@ -48,7 +46,7 @@ For this project we will be using OpenAI’s `text-embedding-ada-002` embedding 
 
 For us to push recommendations to our user, we need to compare different set of texts to find out which are most similar to our user’s query text. We use the cosine similarity rule which compares how “close” two vector coordinates are to each other.
 
-![Untitled](README%209bde31f6c8aa4f7d974785ab2ee3493c/Untitled%201.png)
+![Untitled](images/Untitled%201.png)
 
 On each build, new vector embeddings are created to be queried. Recommendations are given to the user by finding which text are similar to the input document or query.
 
@@ -56,7 +54,7 @@ On each build, new vector embeddings are created to be queried. Recommendations 
 
 ## Software Architecture
 
-![Squire Infrastructure 2 (1).jpg](<README%209bde31f6c8aa4f7d974785ab2ee3493c/Squire_Infrastructure_2_(1).jpg>)
+![Squire Infrastructure 2 (1).jpg](<images/Squire_Infrastructure_2_(1).jpg>)
 
 ### Going Serverless
 
@@ -66,7 +64,7 @@ A serverless architecture is the most straight forward architecture especially w
 
 Parallelism is achieved by splitting the rows of datas into uniformed chunks and creating multiple documents for each build. In the backend, Firebase spins up multiple instances of `onChunkCreated` function to handle with the multiple document creations. See diagram below:
 
-![squire parallelism.jpg](README%209bde31f6c8aa4f7d974785ab2ee3493c/squire_parallelism.jpg)
+![squire parallelism.jpg](images/squire_parallelism.jpg)
 
 Once embeddings are created, they are stored in Supabase through pgvector extension. Embeddings are matched and queried from Supabase as well.
 
@@ -125,3 +123,59 @@ In order for the Python Flask recommendation API to be hosted, we need to build 
 Both deployments happen when pushed to `main` branch. Although not implemented for much of the progress of this project, the current CD setup allows for GitOps where pull request can be reviewed and **deployed on merge**.
 
 ---
+
+## How to Use
+
+### 1. Login/Sign Up
+
+![1.png](images/1.png)
+
+### 2. Creating a Project
+
+![create a new project by clicking the ‘+’ sign](images/2.png)
+
+create a new project by clicking the ‘+’ sign
+
+![give a project name and project description](images/3.png)
+
+give a project name and project description
+
+![upload your excel file containing data](images/4.png)
+
+upload your excel file containing data
+
+### 3. Creating a Build
+
+![give a build message, followed by labelling the data desired](images/5.png)
+
+give a build message, followed by labelling the data desired
+
+### 4. Querying
+
+![use the query text field to search through your data, and click submit](images/6.png)
+
+use the query text field to search through your data, and click submit
+
+![response returned will match the query text, with a similarity rating displayed as well](images/7.png)
+
+response returned will match the query text, with a similarity rating displayed as well
+
+### 5. Chatting with your Data
+
+![chatting with your data allows you to ask questions](images/8.png)
+
+chatting with your data allows you to ask questions
+
+### Creating Multiple Builds
+
+![a new build can be created under the same project, whenever new data has been added](images/9.png)
+
+a new build can be created under the same project, whenever new data has been added
+
+![give a build message and label the data](images/10.png)
+
+give a build message and label the data
+
+![based on the specified project and build, ask away!](images/11.png)
+
+based on the specified project and build, ask away!
