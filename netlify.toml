@@ -1,4 +1,0 @@
-[build]
-  base = "./squire-frontend/"
-  publish = "./squire-frontend/build"
-  command = "npm run build"
