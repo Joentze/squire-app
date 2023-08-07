@@ -1,10 +1,48 @@
-# Squire App 🔮
+### What is SQUIRE 🔮
 
-Squire is a no-code web application used to create recommendation APIs 👨🏽‍💻 By attaching and labelling .xlsx files, users can create recommendation APIs for their frontend in minutes 🚀
+****************Squire,**************** is a Recommendation-as-a-Service (RaaS)/SaaS no-code platform that allows business owners and internet entrepreneurs to build recommendation engine technology and access them through easy-to-use APIs.
+
+### Purpose
+
+Billion-dollar companies stay on top because of their technology — crucially, recommendation engines. Small businesses lose out when they have insufficient capital or technical know-how to build recommendation engines to recommend the right products to their customers.
+
+Squire provides small businesses with a low-cost and easy tool to build recommendation engines that increase their growth potential.
+
+### Scope
+
+The scope of Squire encompasses the development and provision of a Recommendation-as-a-Service (RaaS) platform that enables small businesses and internet entrepreneurs to easily create, customize, and utilize recommendation engines for their products. The platform's primary focus is to empower users who may lack the technical know-how or resources to build recommendation systems from scratch. Here are the key aspects of Squire's scope:
+
+1. No-Code Recommendation Engine Creation:
+Squire aims to provide a user-friendly interface that allows users to create recommendation engines without the need for extensive coding skills. Users can follow a step-by-step process to set up and configure their recommendation instances.
+2. Data Integration and Annotation:
+Users can integrate their product data through .csv file uploads or Notion database integration. The platform assists users in annotating the data, ensuring that it is properly structured and prepared for recommendation algorithms.
+3. API Access and Integration:
+Once a recommendation engine is created, users receive an API key that enables them to query recommendations based on various criteria, such as product descriptions, pricing, and geographic location. This feature allows users to seamlessly integrate recommendations into their applications and websites.
+
+It's important to note that while Squire streamlines the process of creating and accessing recommendation engines, the platform's scope does not extend to broader e-commerce functionalities or complete application development. Squire's primary goal is to provide businesses with the tools they need to enhance customer experiences by integrating recommendation capabilities into their existing applications or platforms.
+
+### Target Audience
+
+1. Small businesses 
+2. Start-ups
+3. Entrepreneurs
+
+### Definitions, Acronyms, and Abbreviations
+
+APIs - Application Programming Interface(s)
+
+RaaS - Recommendation-as-a-Service
+
+SaaS - Software-as-a-Service. Allows users to connect to and use cloud-based applications over the Internet
+
+GET - A `GET` request is used to request data from a specified source
+
+Recommendation Engine - A recommendation engine is a type of data filtering tool using machine learning algorithms to recommend the most relevant items to a particular user or customer
 
 **Try the Squire App** [here](https://www.notion.so/Business-Plan-for-an-Online-Web-Scraper-9047e8d453534ec5a826b2d56656a4a5?pvs=21)
 
 ---
+
 
 ## Video Demo
 
