@@ -179,3 +179,109 @@ give a build message and label the data
 ![based on the specified project and build, ask away!](images/11.png)
 
 based on the specified project and build, ask away!
+
+---
+
+# Run Locally 💽
+
+## Obtaining Keys 🔑
+
+Before we set up anything locally, it’s important to note that Squire uses cloud-based resources, like OpenAI’s Embedding APIs, to create recommendations. This means that we have to obtain API keys for the project in order to run it locally.
+
+### For Supabase & OpenAI ✳️
+
+Obtain Supabase URL & Password in **API settings** of Supabase project page. Create a python exactly named `access_keys.py` in `./squire-backend`
+
+Similarly for OpenAI, create an API key and add in the following into `access_keys.py`:
+
+```bash
+SUPABASE_URL = "YOUR_URL"
+SUPABASE_PWD = "YOUR_PASSWORD"
+OPENAI_API_KEY = "YOUR_KEY"
+```
+
+For Cloud Functions to run locally, add a `.env` file in `./squire-backend/functions` and provision the following credentials:
+
+```bash
+OPEN_AI_KEY=YOUR_KEY
+SUPABASE_URL=YOUR_URL
+SUPABASE_PWD=YOUR_PASSWORD
+SQUIRE_API_URL=https://squire-backend-2uxu4fb6fq-as.a.run.app
+```
+
+_Note, you can swap out `SQUIRE_API_URL` for your locally run flask server which will discuss below._
+
+## Running Front-end 🖼️
+
+To start using front-end, user must have **Node.js** v18.12.1 installed. To get started navigate to `./squire-frontend` & run the following commands:
+
+```bash
+npm install
+npm start
+```
+
+React should run at `[localhost:3000](http://localhost:3000)` by default.
+
+### Firebase 🔥
+
+To emulate Firestore, Authentication & Cloud Functions on local machine, users can install firebase tools:
+
+```bash
+npm install -g firebase-tools
+```
+
+Set up Firebase cli using the following [documentation](https://firebase.google.com/codelabs/firebase-emulator#1)
+
+### Build Functions
+
+Run the following commands to build Firebase Functions:
+
+```bash
+cd ./squire-frontend/functions && npm run build
+```
+
+Run Firebase Emulators by running the command:
+
+```bash
+firebase emulators:start
+```
+
+Emulators have already been configured, see `firebase.json`
+
+Users can now use Squire without the need for cloud-hosted Firebase
+
+## Running Back-end ⚙️
+
+### Setting up Supabase ❇️
+
+In order to test back-end in your own environment, you need to have a Supabase backend hosted on the cloud. Go to Supabase and create new project. Create `document` tables using SQL schema in `./squire-backend/supabase_sql/squire_schema.sql` & create `function` using `./squire-backend/supabase_sql/pg_query_function.sql`
+
+Navigate to `./squire-backend` and type in the following commands:
+
+```bash
+pip3 install -r requirements.txt
+python3 app.py
+```
+
+## For Linux/MacOS Users 🍎
+
+For Linux/MacOS users, we can use a Makefile to simplify set up.
+
+Create a `.env` file in the root directory, and add in the following:
+
+```bash
+OPEN_AI_KEY=YOUR_KEY
+SUPABASE_URL=YOUR_URL
+SUPABASE_PWD=YOUR_PASSWORD
+SQUIRE_API_URL=https://squire-backend-2uxu4fb6fq-as.a.run.app
+PORT="8080"
+```
+
+Just run the following commands:
+
+```bash
+make all_credentials
+make emulators
+make frontend
+make backend
+```
