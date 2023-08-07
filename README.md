@@ -124,64 +124,6 @@ Both deployments happen when pushed to `main` branch. Although not implemented f
 
 ---
 
-## How to Use
-
-### 1. Login/Sign Up
-
-![1.png](images/1.png)
-
-### 2. Creating a Project
-
-![create a new project by clicking the ‘+’ sign](images/2.png)
-
-create a new project by clicking the ‘+’ sign
-
-![give a project name and project description](images/3.png)
-
-give a project name and project description
-
-![upload your excel file containing data](images/4.png)
-
-upload your excel file containing data
-
-### 3. Creating a Build
-
-![give a build message, followed by labelling the data desired](images/5.png)
-
-give a build message, followed by labelling the data desired
-
-### 4. Querying
-
-![use the query text field to search through your data, and click submit](images/6.png)
-
-use the query text field to search through your data, and click submit
-
-![response returned will match the query text, with a similarity rating displayed as well](images/7.png)
-
-response returned will match the query text, with a similarity rating displayed as well
-
-### 5. Chatting with your Data
-
-![chatting with your data allows you to ask questions](images/8.png)
-
-chatting with your data allows you to ask questions
-
-### Creating Multiple Builds
-
-![a new build can be created under the same project, whenever new data has been added](images/9.png)
-
-a new build can be created under the same project, whenever new data has been added
-
-![give a build message and label the data](images/10.png)
-
-give a build message and label the data
-
-![based on the specified project and build, ask away!](images/11.png)
-
-based on the specified project and build, ask away!
-
----
-
 # Run Locally 💽
 
 ## Obtaining Keys 🔑
@@ -285,3 +227,62 @@ make emulators
 make frontend
 make backend
 ```
+
+---
+
+## How to Use
+
+### 1. Login/Sign Up
+
+![1.png](images/1.png)
+
+### 2. Creating a Project
+
+![create a new project by clicking the ‘+’ sign](images/2.png)
+
+create a new project by clicking the ‘+’ sign
+
+![give a project name and project description](images/3.png)
+
+give a project name and project description
+
+![upload your excel file containing data](images/4.png)
+
+upload your excel file containing data
+
+### 3. Creating a Build
+
+![give a build message, followed by labelling the data desired](images/5.png)
+
+give a build message, followed by labelling the data desired
+
+### 4. Querying
+
+![use the query text field to search through your data, and click submit](images/6.png)
+
+use the query text field to search through your data, and click submit
+
+![response returned will match the query text, with a similarity rating displayed as well](images/7.png)
+
+response returned will match the query text, with a similarity rating displayed as well
+
+### 5. Chatting with your Data
+
+![chatting with your data allows you to ask questions](images/8.png)
+
+chatting with your data allows you to ask questions
+
+### Creating Multiple Builds
+
+![a new build can be created under the same project, whenever new data has been added](images/9.png)
+
+a new build can be created under the same project, whenever new data has been added
+
+![give a build message and label the data](images/10.png)
+
+give a build message and label the data
+
+![based on the specified project and build, ask away!](images/11.png)
+
+based on the specified project and build, ask away!
+

@@ -105,8 +105,6 @@ dist
 
 credentials/
 
-Makefile
-
 access_keys.py
 
 __pycache__/
