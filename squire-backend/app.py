@@ -15,7 +15,7 @@ try:
 except ImportError:
     SUPABASE_URL = os.environ["SUPABASE_URL"]
     SUPABASE_PWD = os.environ["SUPABASE_PWD"]
-    OPENAI_API_KEY = os.environ["OPEN_AI_KEY"]
+    OPEN_AI_KEY = os.environ["OPEN_AI_KEY"]
     PORT = int(os.environ["PORT"])
     print("Error: Put file 'access_keys.py' in ./squire-backend")
 
