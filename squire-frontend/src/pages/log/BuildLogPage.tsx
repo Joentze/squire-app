@@ -93,7 +93,7 @@ const BuildLogPage = () => {
   }, []);
 
   useEffect(() => {
-    const url = `${SQUIRE_API_URL}/api?build_id=${buildId}&project_id=${projectId}&query=${queryText}&number_of_matches=${queryNo}`;
+    const url = `https://squire-backend-2uxu4fb6fq-as.a.run.app/api?build_id=${buildId}&project_id=${projectId}&query=${queryText}&number_of_matches=${queryNo}`;
     setGetUrl(url);
   }, [queryText, queryNo]);
   return (
