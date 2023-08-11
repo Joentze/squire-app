@@ -95,6 +95,7 @@ export const createNewBuild = async (
       createdBy,
       createdOn: new Date(),
       status: BuildStatus.INCOMPLETE,
+      completedChunks: [],
     } as BuildType);
     return response.id;
   } catch (e) {
