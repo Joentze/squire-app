@@ -75,14 +75,6 @@ const BuildLogPage = () => {
     getBuild();
   }, []);
   useEffect(() => {
-    // const queryForChunks = query(
-    //   collection(db, "chunks"),
-    //   and(
-    //     where("build_id", "==", buildId as string),
-    //     where("status", "==", "SUCCESS")
-    //   )
-    // );
-
     let newChunks: string[] = [];
     onSnapshot(doc(db, "builds", buildId as string), (doc) => {
       // querySnapshot.forEach((doc) => {
