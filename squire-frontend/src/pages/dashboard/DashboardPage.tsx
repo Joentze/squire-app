@@ -8,7 +8,7 @@ import CircleProgress from "../../components/progress/CircleProgress";
 import ProjectsTable from "../../components/table/ProjectsTable";
 import { useAuth } from "../../firebase/auth/AuthContextWrapper";
 import { db } from "../../firebase/base";
-import { ProjectType, ProjectDisplayType } from "../../types/projectTypes";
+import { ProjectDisplayType } from "../../types/projectTypes";
 // const mockData = [
 //   {
 //     title: "Product Recommendation Engine",

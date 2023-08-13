@@ -10,6 +10,7 @@
 // Start writing functions
 // https://firebase.google.com/docs/functions/typescript
 import * as functions from "firebase-functions";
+import { FieldValue } from "firebase-admin/firestore";
 import admin = require("firebase-admin");
 // import axios from "axios";
 import { defineString } from "firebase-functions/params";
@@ -147,6 +148,13 @@ exports.onChunkCreated = functions.firestore
         .collection("chunks")
         .doc(id)
         .update({ status: "SUCCESS" });
+      await admin
+        .firestore()
+        .collection("builds")
+        .doc(build_id)
+        .update({
+          completedChunks: FieldValue.arrayUnion(id),
+        });
     });
   });
 

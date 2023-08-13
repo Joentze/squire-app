@@ -13,13 +13,14 @@ import {
 import {
   and,
   collection,
+  doc,
   DocumentData,
   onSnapshot,
   query,
   where,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { IoCheckbox, IoCheckboxOutline, IoClipboard } from "react-icons/io5";
+import { IoCheckbox, IoClipboard } from "react-icons/io5";
 import { useParams } from "react-router-dom";
 import { getBuildDetails } from "../../buildHandler/buildHandler";
 import CircleProgress from "../../components/progress/CircleProgress";
@@ -34,9 +35,10 @@ import { validateApiArgs } from "../../validators/recommendationApiValidator";
 const BuildLogPage = () => {
   const SQUIRE_API_URL = process.env.REACT_APP_SQUIRE_API_URL;
   const { buildId } = useParams();
-  const [chunks, setChunks] = useState<Chunk[]>([]);
+  const [chunks, setChunks] = useState<string[]>([]);
   const [projectId, setProjectId] = useState<string>("");
   const [chunkNo, setChunkNo] = useState<number>(0);
+
   // const [completed, setCompleted] = useState<boolean>(false);
   const [queryText, setQueryText] = useState<string>("");
   const [queryNo, setQueryNo] = useState<number>(5);
@@ -73,26 +75,19 @@ const BuildLogPage = () => {
     getBuild();
   }, []);
   useEffect(() => {
-    const queryForChunks = query(
-      collection(db, "chunks"),
-      and(
-        where("build_id", "==", buildId as string),
-        where("status", "==", "SUCCESS")
-      )
-    );
-    let newChunks: Chunk[] = [];
-    onSnapshot(queryForChunks, (querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        console.log("data: ", doc.data());
-        newChunks.push((doc as DocumentData).data());
-      });
+    let newChunks: string[] = [];
+    onSnapshot(doc(db, "builds", buildId as string), (doc) => {
+      // querySnapshot.forEach((doc) => {
+      // console.log("data: ", doc.data());
 
-      setChunks(newChunks);
+      // });
+      const { completedChunks } = doc.data() as any;
+      setChunks(completedChunks);
     });
   }, []);
 
   useEffect(() => {
-    const url = `${SQUIRE_API_URL}/api?build_id=${buildId}&project_id=${projectId}&query=${queryText}&number_of_matches=${queryNo}`;
+    const url = `https://squire-backend-2uxu4fb6fq-as.a.run.app/api?build_id=${buildId}&project_id=${projectId}&query=${queryText}&number_of_matches=${queryNo}`;
     setGetUrl(url);
   }, [queryText, queryNo]);
   return (

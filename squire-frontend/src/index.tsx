@@ -1,15 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LandingPage from "./pages/misc/LandingPage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
-import LogsListPage from "./pages/logging/LogsListPage";
 import BuildPage from "./pages/builder/BuildPage";
-import BuildProcessPage from "./pages/builder/BuildProcessPage";
-import DisplayLogPage from "./pages/logging/DisplayLogPage";
 import NavFrame from "./components/nav/NavFrame";
 import ErrorPage from "./pages/misc/ErrorPage";
 import LoginPage from "./pages/auth/LoginPage";
@@ -44,7 +40,6 @@ const router = createBrowserRouter([
         path: "/playground",
         element: <PlaygroundPage />,
       },
-      // { path: "/build/:engineid/:runid", element: <BuildProcessPage /> },
     ],
   },
   {

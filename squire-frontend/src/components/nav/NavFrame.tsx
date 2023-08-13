@@ -1,12 +1,6 @@
 import { ActionIcon, Tooltip, Text, Menu } from "@mantine/core";
-import { iconSizes } from "@mantine/core/lib/Stepper/Step/Step.styles";
 import { signOut } from "firebase/auth";
-import {
-  Icon3dCubeSphere,
-  IconDotsVertical,
-  IconLayoutDashboard,
-  IconListCheck,
-} from "@tabler/icons-react";
+import { IconDotsVertical, IconLayoutDashboard } from "@tabler/icons-react";
 import { IoLogOut, IoRocketSharp } from "react-icons/io5";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { auth } from "../../firebase/base";

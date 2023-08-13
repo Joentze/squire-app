@@ -1,11 +1,5 @@
-import {
-  ActionIcon,
-  Button,
-  Chip,
-  Divider,
-  Text,
-  Tooltip,
-} from "@mantine/core";
+
+import { Button, Divider, Text } from "@mantine/core";
 import { showNotification } from "../../notifications/notificationHandler";
 import { IconPlus } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
@@ -31,7 +25,7 @@ const ProjectPage = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { projectId } = useParams();
   const [project, setProject] = useState<ProjectType>();
-  const [builds, setBuilds] = useState<BuildType[]>([]);
+  // const [builds, setBuilds] = useState<BuildType[]>([]);
   const navigate = useNavigate();
   const [timelineItems, setTimelineItems] = useState<TimelineBuildItem[]>([]);
 
@@ -49,7 +43,7 @@ const ProjectPage = () => {
     if (projectId) {
       const getBuilds = async (): Promise<void> => {
         const buildDetails = await getBuildAllDetails(projectId);
-        setBuilds(buildDetails);
+        // setBuilds(buildDetails);
         // console.log(buildDetails);
         const timeline = buildsToTimeline(buildDetails);
         setTimelineItems(timeline);

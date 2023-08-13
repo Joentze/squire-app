@@ -10,12 +10,13 @@ from supabase import create_client
 # ================================================
 # ====================FOR KEYS====================
 try:
-    from access_keys import SUPABASE_PWD, SUPABASE_URL, OPENAI_API_KEY
+    from access_keys import SUPABASE_PWD, SUPABASE_URL, OPEN_AI_KEY, PORT
 
 except ImportError:
     SUPABASE_URL = os.environ["SUPABASE_URL"]
     SUPABASE_PWD = os.environ["SUPABASE_PWD"]
-    OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
+    OPEN_AI_KEY = os.environ["OPEN_AI_KEY"]
+    PORT = int(os.environ["PORT"])
     print("Error: Put file 'access_keys.py' in ./squire-backend")
 
 # ====================FOR KEYS====================
@@ -23,7 +24,7 @@ except ImportError:
 
 SIMILARITY_THRESHOLD = 0.001
 
-openai.api_key = OPENAI_API_KEY
+openai.api_key = OPEN_AI_KEY
 
 supabase_client = create_client(
     supabase_url=SUPABASE_URL, supabase_key=SUPABASE_PWD)
@@ -59,8 +60,6 @@ def get_similar_documents():
     response = get_best_matches(query, number_of_matches, build_id, project_id)
     return response.data
 
-
-PORT = int(os.environ["PORT"])
 
 if __name__ == "__main__":
 

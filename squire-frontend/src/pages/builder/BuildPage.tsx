@@ -1,12 +1,7 @@
+
 import { Button, Divider, Input, MultiSelect, Text } from "@mantine/core";
-import { IconChartBubble, IconPencil, IconTag } from "@tabler/icons-react";
-import {
-  ChangeEvent,
-  ChangeEventHandler,
-  EventHandler,
-  useEffect,
-  useState,
-} from "react";
+import { IconPencil, IconTag } from "@tabler/icons-react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { IoArrowDown } from "react-icons/io5";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -16,21 +11,18 @@ import {
   setStatus,
   writeAllChunks,
 } from "../../buildHandler/buildHandler";
-import {
-  ExcelSupabaseWrite,
-  formatExcelToPost,
-} from "../../buildHandler/excelHandler";
+import { formatExcelToPost } from "../../buildHandler/excelHandler";
 import ExcelFileDrop from "../../components/fileInput/ExcelFileDrop";
 import CircleProgress from "../../components/progress/CircleProgress";
 import ResultTable from "../../components/table/ResultTable";
 import { getProjectDetails } from "../../projectHandler/projectHandler";
 import { BuildStatus } from "../../types/buildTypes";
-import { ProjectDisplayType, ProjectType } from "../../types/projectTypes";
+import { ProjectType } from "../../types/projectTypes";
 
-interface MantineMultiType {
-  label: string;
-  value: string;
-}
+// interface MantineMultiType {
+//   label: string;
+//   value: string;
+// }
 
 // const toMantineMultiSelectDataFormat = (
 //   colKeys: string[]
